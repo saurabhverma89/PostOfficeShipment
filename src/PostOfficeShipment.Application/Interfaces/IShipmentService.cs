@@ -1,0 +1,14 @@
+﻿using PostOfficeShipment.Application.DTOs.Shipments;
+
+namespace PostOfficeShipment.Application.Interfaces;
+
+public interface IShipmentService
+{
+    Task<ShipmentResponse> CreateAsync(CreateShipmentRequest request, CancellationToken cancellationToken = default);
+
+    Task<ShipmentResponse?> GetByIdAsync(int id, CancellationToken cancellationToken = default);
+
+    Task UpdateAsync(int id, UpdateShipmentRequest request, CancellationToken cancellationToken = default);
+
+    Task DeleteAsync(int id, CancellationToken cancellationToken = default);
+}

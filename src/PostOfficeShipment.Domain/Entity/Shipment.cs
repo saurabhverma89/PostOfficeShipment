@@ -4,19 +4,66 @@ namespace PostOfficeShipment.Domain.Entities;
 
 public abstract class Shipment
 {
+    protected Shipment()
+    {
+    }
+
+    protected Shipment(
+    string shipmentNumber,
+    decimal weight,
+    int originPostOfficeId,
+    int destinationPostOfficeId)
+    {
+        if (string.IsNullOrWhiteSpace(shipmentNumber))
+            throw new ArgumentException(
+                "Shipment number is required.",
+                nameof(shipmentNumber));
+
+        if (weight <= 0)
+            throw new ArgumentException(
+                "Shipment weight must be greater than zero.",
+                nameof(weight));
+
+        if (originPostOfficeId <= 0)
+            throw new ArgumentException(
+                "Origin post office is required.",
+                nameof(originPostOfficeId));
+
+        if (destinationPostOfficeId <= 0)
+            throw new ArgumentException(
+                "Destination post office is required.",
+                nameof(destinationPostOfficeId));
+
+        if (originPostOfficeId == destinationPostOfficeId)
+            throw new ArgumentException(
+                "Origin and destination post offices must be different.");
+
+        ShipmentNumber = shipmentNumber;
+        Weight = weight;
+
+        OriginPostOfficeId = originPostOfficeId;
+        DestinationPostOfficeId = destinationPostOfficeId;
+        CurrentPostOfficeId = originPostOfficeId;
+
+        Status = ShipmentStatus.ReceivedAtOrigin;
+
+        CreatedAt = DateTime.UtcNow;
+        UpdatedAt = CreatedAt;
+    }
+
     public int Id { get; set; }
 
-    public required string ShipmentNumber { get; set; }
+    public string ShipmentNumber { get; private set; } = string.Empty;
 
     public decimal Weight { get; set; }
 
-    public ShipmentStatus Status { get; set; }
+    public ShipmentStatus Status { get; private set; }
 
     public int OriginPostOfficeId { get; set; }
 
     public int DestinationPostOfficeId { get; set; }
 
-    public int CurrentPostOfficeId { get; set; }
+    public int CurrentPostOfficeId { get; private set; }
 
     public DateTime CreatedAt { get; set; }
 
@@ -43,5 +90,47 @@ public abstract class Shipment
 
             return WeightCategory.MoreThan5Kg;
         }
+    }
+
+    public void MoveTo(int postOfficeId)
+    {
+        if (postOfficeId <= 0)
+            throw new ArgumentException(
+                "Post office ID must be greater than zero.",
+                nameof(postOfficeId));
+
+        CurrentPostOfficeId = postOfficeId;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void UpdateStatus(ShipmentStatus newStatus)
+    {
+        if (newStatus == Status)
+            return;
+
+        if (!IsValidStatusTransition(Status, newStatus))
+        {
+            throw new InvalidOperationException(
+                $"Invalid status transition from {Status} to {newStatus}.");
+        }
+
+        Status = newStatus;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    private static bool IsValidStatusTransition(ShipmentStatus currentStatus, ShipmentStatus newStatus)
+    {
+        return currentStatus switch
+        {
+            ShipmentStatus.ReceivedAtOrigin =>
+                newStatus == ShipmentStatus.ReceivedAtDestination,
+
+            ShipmentStatus.ReceivedAtDestination =>
+                newStatus == ShipmentStatus.Delivered,
+
+            ShipmentStatus.Delivered => false,
+
+            _ => false
+        };
     }
 }
