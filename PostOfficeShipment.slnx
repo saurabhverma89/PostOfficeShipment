@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/PostOfficeShipment.Api/PostOfficeShipment.Api.csproj" />
+    <Project Path="src/PostOfficeShipment.Application/PostOfficeShipment.Application.csproj" />
+    <Project Path="src/PostOfficeShipment.Domain/PostOfficeShipment.Domain.csproj" />
+    <Project Path="src/PostOfficeShipment.Infrastructure/PostOfficeShipment.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/PostOfficeShipment.Tests/PostOfficeShipment.Tests.csproj" />
+  </Folder>
+</Solution>
