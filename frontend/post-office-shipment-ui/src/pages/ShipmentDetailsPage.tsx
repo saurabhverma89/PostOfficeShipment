@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
+import EditIcon from "@mui/icons-material/Edit";
 import {
   Alert,
   Box,
@@ -30,13 +30,13 @@ import {
 } from "../utils/shipmentUtils";
 
 import { getPostOffices } from "../api/postOfficeApi";
-
+import ConfirmDialog from "../components/common/ConfirmDialog";
 import MoveShipmentDialog from "../components/shipments/MoveShipmentDialog";
 
 function ShipmentDetailsPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [shipment, setShipment] = useState<Shipment | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -167,12 +167,6 @@ function ShipmentDetailsPage() {
       return;
     }
 
-    const confirmed = window.confirm("Are you sure you want to delete this shipment?",);
-
-    if (!confirmed) {
-      return;
-    }
-
     try {
       setActionLoading(true);
       setActionError(null);
@@ -225,6 +219,16 @@ function ShipmentDetailsPage() {
           Back
         </Button>
 
+        <Button
+          variant="outlined"
+          startIcon={<EditIcon />}
+          onClick={() =>
+            navigate(`/shipments/${shipment.id}/edit`)
+          }
+        >
+          Edit
+        </Button>
+
         <Box>
           <Typography variant="h5">
             {shipment.shipmentNumber}
@@ -249,30 +253,28 @@ function ShipmentDetailsPage() {
 
             >
 
-            {shipment.status !==
-            ShipmentStatus.Delivered && (
-            <Button
-            variant="outlined"
-            onClick={() =>
-            setMoveDialogOpen(true)
-            }
-            disabled={actionLoading}
-            >
-            Move </Button>
+            {shipment.status !== ShipmentStatus.Delivered && 
+            (
+              <Button
+                variant="outlined"
+                onClick={() => setMoveDialogOpen(true)}
+                disabled={actionLoading}
+              >
+                Move 
+              </Button>
             )}
 
             {shipment.status ===
             ShipmentStatus.ReceivedAtOrigin &&
             shipment.currentPostOfficeId ===
             shipment.destinationPostOfficeId && (
-            <Button
-            variant="contained"
-            onClick={
-            handleReceiveAtDestination
-            }
-            disabled={actionLoading}
-            >
-            Receive at Destination </Button>
+              <Button
+                variant="contained"
+                onClick={ handleReceiveAtDestination }
+                disabled={actionLoading}
+              >
+                Receive at Destination 
+              </Button>
             )}
 
             {shipment.status ===
@@ -285,14 +287,12 @@ function ShipmentDetailsPage() {
             )}
 
             <Button
-            variant="outlined"
-            color="error"
-            onClick={handleDelete}
-            disabled={actionLoading}
-
+              variant="outlined"
+              color="error"
+              onClick={() => setDeleteDialogOpen(true)}
+              disabled={actionLoading}
             >
-
-            Delete
+              Delete
             </Button>
           </Stack>
 
@@ -386,7 +386,17 @@ function ShipmentDetailsPage() {
         </Alert>
       )}
 
-      
+      <ConfirmDialog
+        open={deleteDialogOpen}
+        title="Delete Shipment"
+        message={`Are you sure you want to delete shipment ${shipment.shipmentNumber}?`}
+        confirmText="Delete"
+        onCancel={() => setDeleteDialogOpen(false)}
+        onConfirm={async () => {
+          setDeleteDialogOpen(false);
+          await handleDelete();
+        }}
+      />  
     </Container>
   );
 }
