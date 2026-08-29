@@ -49,4 +49,36 @@ public class ShipmentsController : ControllerBase
 
     }
 
+    [HttpPut("{id:int}")]
+    public async Task<ActionResult<ShipmentResponse>> Update(int id, UpdateShipmentRequest request, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var shipment = await _shipmentService.UpdateAsync(id, request, cancellationToken);
+
+            if (shipment is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(shipment);
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new
+            {
+                message = ex.Message
+            });
+        }
+        catch (InvalidOperationException ex)
+        {
+            return Conflict(new
+            {
+                message = ex.Message
+            });
+        }
+
+    }
+
+
 }

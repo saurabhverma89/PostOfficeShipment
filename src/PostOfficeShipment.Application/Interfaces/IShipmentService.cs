@@ -9,7 +9,7 @@ public interface IShipmentService
 
     Task<ShipmentResponse?> GetByIdAsync(int id, CancellationToken cancellationToken = default);
 
-    Task UpdateAsync(int id, UpdateShipmentRequest request, CancellationToken cancellationToken = default);
+    Task<ShipmentResponse?> UpdateAsync(int id, UpdateShipmentRequest request, CancellationToken cancellationToken = default);
 
     Task DeleteAsync(int id, CancellationToken cancellationToken = default);
     Task<PagedResponse<ShipmentResponse>> GetPagedAsync(ShipmentQueryRequest request, CancellationToken cancellationToken = default);

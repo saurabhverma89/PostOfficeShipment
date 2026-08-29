@@ -36,17 +36,15 @@ public class ShipmentRepository : IShipmentRepository
 
     public async Task AddAsync(Shipment shipment, CancellationToken cancellationToken = default)
     {
-        await _context.Shipments.AddAsync(
-            shipment,
-            cancellationToken);
+        await _context.Shipments.AddAsync(shipment, cancellationToken);
     }
 
-    public void Update(Shipment shipment)
+    public async Task UpdateAsync(Shipment shipment, CancellationToken cancellationToken = default)
     {
         _context.Shipments.Update(shipment);
     }
 
-    public void Delete(Shipment shipment)
+    public async Task DeleteAsync(Shipment shipment, CancellationToken cancellationToken = default)
     {
         _context.Shipments.Remove(shipment);
     }
@@ -58,9 +56,7 @@ public class ShipmentRepository : IShipmentRepository
 
     public async Task AddStatusHistoryAsync(ShipmentStatusHistory history, CancellationToken cancellationToken = default)
     {
-        await _context.ShipmentStatusHistories.AddAsync(
-            history,
-            cancellationToken);
+        await _context.ShipmentStatusHistories.AddAsync(history, cancellationToken);
     }
 
     public async Task<(IReadOnlyList<Shipment> Items, int TotalCount)> GetPagedAsync(ShipmentQueryRequest request, CancellationToken cancellationToken = default)

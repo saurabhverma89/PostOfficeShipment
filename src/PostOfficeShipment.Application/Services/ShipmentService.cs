@@ -124,21 +124,57 @@ public class ShipmentService : IShipmentService
 
     public async Task<ShipmentResponse?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
     {
-        var shipment =
-            await _shipmentRepository.GetByIdAsync(
-                id,
-                cancellationToken);
+        var shipment = await _shipmentRepository.GetByIdAsync(id, cancellationToken);
 
         return shipment is null
             ? null
             : MapToResponse(shipment);
     }
 
-    public Task UpdateAsync(int id, UpdateShipmentRequest request,
-        CancellationToken cancellationToken = default)
+    public async Task<ShipmentResponse?> UpdateAsync(int id, UpdateShipmentRequest request, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var shipment = await _shipmentRepository.GetByIdAsync(
+        id,
+        cancellationToken);
+
+        if (shipment is null)
+        {
+            return null;
+        }
+
+        if (request.Weight <= 0)
+        {
+            throw new ArgumentException("Weight must be greater than zero.");
+        }
+
+        var destination = await _postOfficeRepository.GetByIdAsync(
+            request.DestinationPostOfficeId,
+            cancellationToken);
+
+        if (destination is null)
+        {
+            throw new ArgumentException("Destination post office does not exist.");
+        }
+
+        if (shipment.Status == ShipmentStatus.Delivered)
+        {
+            throw new InvalidOperationException("A delivered shipment cannot be updated.");
+        }
+
+        shipment.Weight = request.Weight;
+        shipment.DestinationPostOfficeId = request.DestinationPostOfficeId;
+
+        shipment.DestinationPostOffice = destination;
+        shipment.UpdatedAt = DateTime.UtcNow;
+
+        await _shipmentRepository.UpdateAsync(
+            shipment,
+            cancellationToken);
+
+        return MapToResponse(shipment);
+
     }
+
 
     public Task DeleteAsync(int id, CancellationToken cancellationToken = default)
     {

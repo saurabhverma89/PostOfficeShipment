@@ -11,9 +11,9 @@ public interface IShipmentRepository
 
     Task AddAsync(Shipment shipment, CancellationToken cancellationToken = default);
 
-    void Update(Shipment shipment);
+    Task UpdateAsync(Shipment shipment, CancellationToken cancellationToken = default);
 
-    void Delete(Shipment shipment);
+    Task DeleteAsync(Shipment shipment, CancellationToken cancellationToken = default);
 
     Task SaveChangesAsync(CancellationToken cancellationToken = default);
 
