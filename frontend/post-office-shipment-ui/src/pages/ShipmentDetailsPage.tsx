@@ -15,28 +15,35 @@ import {
 } from "@mui/material";
 
 import {
+  deleteShipment,
+  deliverShipment,
+  moveShipment,
+  receiveAtDestination,
   getShipmentById,
 } from "../api/shipmentApi";
 
-import type { Shipment } from "../types/shipment";
+import { type Shipment, type PostOffice, ShipmentStatus } from "../types/shipment";
 
 import {
   getShipmentStatusLabel,
   getWeightCategoryLabel,
 } from "../utils/shipmentUtils";
 
+import { getPostOffices } from "../api/postOfficeApi";
+
+import MoveShipmentDialog from "../components/shipments/MoveShipmentDialog";
+
 function ShipmentDetailsPage() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [shipment, setShipment] =
-    useState<Shipment | null>(null);
-
-  const [loading, setLoading] =
-    useState(true);
-
-  const [error, setError] =
-    useState<string | null>(null);
+  const [shipment, setShipment] = useState<Shipment | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [postOffices, setPostOffices] = useState<PostOffice[]>([]);
+  const [moveDialogOpen, setMoveDialogOpen] = useState(false);
+  const [actionLoading, setActionLoading] = useState(false);
+  const [actionError, setActionError] = useState<string | null>(null);
 
   useEffect(() => {
     async function loadShipment() {
@@ -63,6 +70,124 @@ function ShipmentDetailsPage() {
 
     loadShipment();
   }, [id]);
+
+  useEffect(() => {
+    async function loadPostOffices() {
+      try {
+        const result = await getPostOffices();
+        setPostOffices(result);
+      } catch {
+        setActionError("Unable to load post offices.",);
+      }
+    }
+
+    loadPostOffices();
+  }, []);
+
+  async function refreshShipment() {
+    if (!id) {
+      return;
+    }
+
+    const result = await getShipmentById(
+      Number(id),
+    );
+
+    setShipment(result);
+  }
+
+  async function handleMove(postOfficeId: number) {
+    if (!id) {
+      return;
+    }
+
+    try {
+      setActionLoading(true);
+      setActionError(null);
+
+      await moveShipment(
+        Number(id),
+        postOfficeId,
+      );
+
+      await refreshShipment();
+    } catch {
+      setActionError("Unable to move shipment.");
+    } finally {
+      setActionLoading(false);
+    }
+  }
+
+  async function handleReceiveAtDestination() {
+    if (!id) {
+      return;
+    }
+
+    try {
+      setActionLoading(true);
+      setActionError(null);
+
+      await receiveAtDestination(
+        Number(id),
+      );
+
+      await refreshShipment();
+    
+    } catch {
+      setActionError("Unable to receive shipment at destination.",);
+    } finally {
+      setActionLoading(false);
+    }
+  }
+
+  async function handleDeliver() {
+    if (!id) {
+      return;
+    }
+
+    try {
+      setActionLoading(true);
+      setActionError(null);
+
+      await deliverShipment(
+        Number(id),
+      );
+
+      await refreshShipment();
+
+    } catch {
+      setActionError("Unable to deliver shipment.",);
+    } finally {
+      setActionLoading(false);
+    }
+  }
+
+  async function handleDelete() {
+    if (!id) {
+      return;
+    }
+
+    const confirmed = window.confirm("Are you sure you want to delete this shipment?",);
+
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      setActionLoading(true);
+      setActionError(null);
+
+      await deleteShipment(Number(id));
+
+      navigate("/");
+
+    } catch {
+      setActionError("Unable to delete shipment.",);
+    } finally {
+      setActionLoading(false);
+    }
+  }
+
 
   if (loading) {
     return (
@@ -116,6 +241,62 @@ function ShipmentDetailsPage() {
           <Typography variant="h6">
             Shipment Information
           </Typography>
+
+          <Divider />
+
+          <Stack
+            direction="row"
+            spacing={2}
+            flexwrap="wrap"
+
+            >
+
+            {shipment.status !==
+            ShipmentStatus.Delivered && (
+            <Button
+            variant="outlined"
+            onClick={() =>
+            setMoveDialogOpen(true)
+            }
+            disabled={actionLoading}
+            >
+            Move </Button>
+            )}
+
+            {shipment.status ===
+            ShipmentStatus.ReceivedAtOrigin &&
+            shipment.currentPostOfficeId ===
+            shipment.destinationPostOfficeId && (
+            <Button
+            variant="contained"
+            onClick={
+            handleReceiveAtDestination
+            }
+            disabled={actionLoading}
+            >
+            Receive at Destination </Button>
+            )}
+
+            {shipment.status ===
+            ShipmentStatus.ReceivedAtDestination && ( <Button
+              variant="contained"
+              onClick={handleDeliver}
+              disabled={actionLoading}
+            >
+            Deliver </Button>
+            )}
+
+            <Button
+            variant="outlined"
+            color="error"
+            onClick={handleDelete}
+            disabled={actionLoading}
+
+            >
+
+            Delete
+            </Button>
+          </Stack>
 
           <Divider />
 
@@ -187,6 +368,27 @@ function ShipmentDetailsPage() {
           )}
         </Stack>
       </Paper>
+      <MoveShipmentDialog
+        open={moveDialogOpen}
+        postOffices={postOffices}
+        currentPostOfficeId={
+          shipment.currentPostOfficeId
+        }
+        onClose={() =>
+          setMoveDialogOpen(false)
+        }
+        onMove={handleMove}
+      />
+      {actionError && (
+        <Alert
+        severity="error"
+        sx={{ mb: 2 }}
+        >
+          {actionError}
+        </Alert>
+      )}
+
+      
     </Container>
   );
 }
