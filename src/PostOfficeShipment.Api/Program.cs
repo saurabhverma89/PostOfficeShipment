@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PostOfficeShipment.Api.ExceptionHandling;
 using PostOfficeShipment.Application.Interfaces;
-using PostOfficeShipment.Application.Interfaces;
 using PostOfficeShipment.Application.Services;
 using PostOfficeShipment.Infrastructure.Data;
 using PostOfficeShipment.Infrastructure.Repositories;
@@ -30,6 +29,17 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Frontend", policy =>
+    {
+        policy
+        .WithOrigins("http://localhost:5173")
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -43,6 +53,7 @@ if (app.Environment.IsDevelopment())
 app.UseExceptionHandler();
 app.UseHttpsRedirection();
 
+app.UseCors("Frontend");
 app.MapControllers();
 
 app.Run();
