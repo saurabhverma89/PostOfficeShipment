@@ -211,10 +211,7 @@ function ShipmentsPage() {
                         navigate(`/shipments/${shipment.id}`)
                     }
                     onEdit={(shipment) =>
-                        console.log(
-                            "Edit",
-                            shipment,
-                        )
+                        navigate(`/shipments/${shipment.id}/edit`)
                     }
                 />
 
