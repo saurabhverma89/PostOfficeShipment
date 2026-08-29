@@ -94,8 +94,8 @@ function PostOfficesPage() {
           xs: "column",
           sm: "row",
         }}
-        justifyContent="space-between"
-        alignItems={{
+        justifycontent="space-between"
+        alignitems={{
           xs: "flex-start",
           sm: "center",
         }}
@@ -135,7 +135,7 @@ function PostOfficesPage() {
       <Paper>
         {loading ? (
           <Stack
-            alignItems="center"
+            alignitems="center"
             sx={{ p: 6 }}
           >
             <CircularProgress />

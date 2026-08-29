@@ -94,8 +94,7 @@ public class ShipmentsController : ControllerBase
     [HttpPost("{id:int}/receive-destination")]
     public async Task<ActionResult<ShipmentResponse>> ReceiveAtDestination(int id, CancellationToken cancellationToken)
     {
-        var shipment =
- await _shipmentService.ReceiveAtDestinationAsync(id, cancellationToken);
+        var shipment = await _shipmentService.ReceiveAtDestinationAsync(id, cancellationToken);
 
         if (shipment is null)
         {
@@ -118,5 +117,11 @@ public class ShipmentsController : ControllerBase
         return Ok(shipment);
     }
 
+    [HttpGet("summary")]
+    public async Task<ActionResult<ShipmentSummaryResponse>> GetSummary(CancellationToken cancellationToken)
+    {
+        var result = await _shipmentService.GetSummaryAsync(cancellationToken);
 
+        return Ok(result);
+    }
 }

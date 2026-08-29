@@ -223,7 +223,7 @@ function CreateShipmentPage() {
             <Stack
               direction="row"
               spacing={2}
-              justifyContent="flex-end"
+              justifycontent="flex-end"
               sx={{ pt: 2 }}
             >
               <Button

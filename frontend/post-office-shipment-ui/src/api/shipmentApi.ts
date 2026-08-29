@@ -29,6 +29,13 @@ export interface UpdateShipmentRequest {
     destinationPostOfficeId: number;
 }
 
+export interface ShipmentSummary {
+  total: number;
+  receivedAtOrigin: number;
+  receivedAtDestination: number;
+  delivered: number;
+}
+
 export async function getShipments(query: ShipmentQuery = {},): Promise<PagedResponse<Shipment>> {
     const response = await apiClient.get<PagedResponse<Shipment>>(
         "/shipments",
@@ -95,4 +102,10 @@ export async function deliverShipment(id: number,): Promise<Shipment> {
     );
 
     return response.data;
+}
+
+export async function getShipmentSummary(): Promise<ShipmentSummary> {
+  const response = await apiClient.get<ShipmentSummary>("/shipments/summary");
+
+  return response.data;
 }

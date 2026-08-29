@@ -18,5 +18,8 @@ public interface IShipmentRepository
     Task SaveChangesAsync(CancellationToken cancellationToken = default);
 
     Task AddStatusHistoryAsync(ShipmentStatusHistory history, CancellationToken cancellationToken = default);
+
     Task<(IReadOnlyList<Shipment> Items, int TotalCount)> GetPagedAsync(ShipmentQueryRequest request, CancellationToken cancellationToken = default);
+
+    Task<ShipmentSummaryResponse> GetSummaryAsync(CancellationToken cancellationToken = default);
 }

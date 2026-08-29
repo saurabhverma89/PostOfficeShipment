@@ -73,8 +73,7 @@ public class ShipmentRepository : IShipmentRepository
         {
             var shipmentNumber = request.ShipmentNumber.Trim();
 
-            query = query.Where(x =>
-                x.ShipmentNumber == shipmentNumber);
+            query = query.Where(x => x.ShipmentNumber.ToLower() == shipmentNumber.ToLower());
         }
 
         if (request.Status.HasValue)
@@ -118,6 +117,20 @@ public class ShipmentRepository : IShipmentRepository
 
         return (items, totalCount);
 
+    }
+
+    public async Task<ShipmentSummaryResponse> GetSummaryAsync(CancellationToken cancellationToken = default)
+    {
+        return new ShipmentSummaryResponse
+        {
+            Total = await _context.Shipments.CountAsync(cancellationToken),
+
+            ReceivedAtOrigin = await _context.Shipments.CountAsync(x => x.Status == ShipmentStatus.ReceivedAtOrigin, cancellationToken),
+
+            ReceivedAtDestination = await _context.Shipments.CountAsync(x => x.Status == ShipmentStatus.ReceivedAtDestination, cancellationToken),
+
+            Delivered = await _context.Shipments.CountAsync(x => x.Status == ShipmentStatus.Delivered, cancellationToken)
+        };
     }
 
 }

@@ -300,7 +300,7 @@ function EditShipmentPage() {
 
           <Stack
             direction="row"
-            justifyContent="flex-end"
+            justifycontent="flex-end"
             spacing={2}
           >
             <Button

@@ -12,6 +12,7 @@ import EditShipmentPage from "./pages/EditShipmentPage";
 import PostOfficesPage from "./pages/PostOfficesPage";
 import CreatePostOfficePage from "./pages/CreatePostOfficePage";
 import EditPostOfficePage from "./pages/EditPostOfficePage";
+import DashboardPage from "./pages/DashboardPage";
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
         <Route element={<AppLayout />}>
           <Route
             path="/"
-            element={<ShipmentsPage />}
+            element={<DashboardPage />}
           />
 
           <Route
@@ -57,6 +58,8 @@ function App() {
             path="/post-offices/:id/edit"
             element={<EditPostOfficePage />}
           />
+
+          
         </Route>
       </Routes>
     </BrowserRouter>

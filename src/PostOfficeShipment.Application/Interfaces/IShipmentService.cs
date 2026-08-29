@@ -20,5 +20,5 @@ public interface IShipmentService
 
     Task<ShipmentResponse?> DeliverAsync(int id, CancellationToken cancellationToken = default);
 
-
+    Task<ShipmentSummaryResponse> GetSummaryAsync(CancellationToken cancellationToken = default);
 }

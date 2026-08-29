@@ -208,10 +208,7 @@ public class ShipmentService : IShipmentService
             request.PageSize = 100;
         }
 
-        var (items, totalCount) =
-            await _shipmentRepository.GetPagedAsync(
-                request,
-                cancellationToken);
+        var (items, totalCount) = await _shipmentRepository.GetPagedAsync(request, cancellationToken);
 
         return new PagedResponse<ShipmentResponse>
         {
@@ -357,5 +354,8 @@ public class ShipmentService : IShipmentService
 
     }
 
-
+    public async Task<ShipmentSummaryResponse> GetSummaryAsync(CancellationToken cancellationToken = default)
+    {
+        return await _shipmentRepository.GetSummaryAsync(cancellationToken);
+    }
 }
