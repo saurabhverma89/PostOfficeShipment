@@ -39,59 +39,27 @@ public class PostOfficesController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<PostOfficeResponse>> Create(CreatePostOfficeRequest request, CancellationToken cancellationToken)
     {
-        try
-        {
-            var result = await _postOfficeService.CreateAsync(request, cancellationToken);
+        var result = await _postOfficeService.CreateAsync(request, cancellationToken);
 
-            return CreatedAtAction(
-                nameof(GetById),
-                new { id = result.Id },
-                result);
-        }
-        catch (ArgumentException ex)
-        {
-            return BadRequest(new
-            {
-                message = ex.Message
-            });
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Conflict(new
-            {
-                message = ex.Message
-            });
-        }
+        return CreatedAtAction(
+            nameof(GetById),
+            new { id = result.Id },
+            result);
+
     }
 
     [HttpPut("{id:int}")]
     public async Task<ActionResult<PostOfficeResponse>> Update(int id, UpdatePostOfficeRequest request, CancellationToken cancellationToken)
     {
-        try
-        {
-            var result = await _postOfficeService.UpdateAsync(id, request, cancellationToken);
+        var result = await _postOfficeService.UpdateAsync(id, request, cancellationToken);
 
-            if (result is null)
-            {
-                return NotFound();
-            }
+        if (result is null)
+        {
+            return NotFound();
+        }
 
-            return Ok(result);
-        }
-        catch (ArgumentException ex)
-        {
-            return BadRequest(new
-            {
-                message = ex.Message
-            });
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Conflict(new
-            {
-                message = ex.Message
-            });
-        }
+        return Ok(result);
+
     }
 
     [HttpDelete("{id:int}")]

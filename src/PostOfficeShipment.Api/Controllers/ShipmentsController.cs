@@ -52,32 +52,14 @@ public class ShipmentsController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<ActionResult<ShipmentResponse>> Update(int id, UpdateShipmentRequest request, CancellationToken cancellationToken)
     {
-        try
-        {
-            var shipment = await _shipmentService.UpdateAsync(id, request, cancellationToken);
+        var shipment = await _shipmentService.UpdateAsync(id, request, cancellationToken);
 
-            if (shipment is null)
-            {
-                return NotFound();
-            }
-
-            return Ok(shipment);
-        }
-        catch (ArgumentException ex)
+        if (shipment is null)
         {
-            return BadRequest(new
-            {
-                message = ex.Message
-            });
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Conflict(new
-            {
-                message = ex.Message
-            });
+            return NotFound();
         }
 
+        return Ok(shipment);
     }
 
     [HttpDelete("{id:int}")]
@@ -99,81 +81,41 @@ public class ShipmentsController : ControllerBase
     [HttpPost("{id:int}/move")]
     public async Task<ActionResult<ShipmentResponse>> Move(int id, MoveShipmentRequest request, CancellationToken cancellationToken)
     {
-        try
-        {
-            var shipment = await _shipmentService.MoveAsync(id, request, cancellationToken);
+        var shipment = await _shipmentService.MoveAsync(id, request, cancellationToken);
 
-            if (shipment is null)
-            {
-                return NotFound();
-            }
-
-            return Ok(shipment);
-        }
-        catch (ArgumentException ex)
+        if (shipment is null)
         {
-            return BadRequest(new
-            {
-                message = ex.Message
-            });
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Conflict(new
-            {
-                message = ex.Message
-            });
+            return NotFound();
         }
 
+        return Ok(shipment);
     }
 
     [HttpPost("{id:int}/receive-destination")]
     public async Task<ActionResult<ShipmentResponse>> ReceiveAtDestination(int id, CancellationToken cancellationToken)
     {
-        try
-        {
-            var shipment =
-            await _shipmentService.ReceiveAtDestinationAsync(id, cancellationToken);
+        var shipment =
+ await _shipmentService.ReceiveAtDestinationAsync(id, cancellationToken);
 
-            if (shipment is null)
-            {
-                return NotFound();
-            }
-
-            return Ok(shipment);
-        }
-        catch (InvalidOperationException ex)
+        if (shipment is null)
         {
-            return Conflict(new
-            {
-                message = ex.Message
-            });
+            return NotFound();
         }
 
+        return Ok(shipment);
     }
 
     [HttpPost("{id:int}/deliver")]
     public async Task<ActionResult<ShipmentResponse>> Deliver(int id, CancellationToken cancellationToken)
     {
-        try
-        {
-            var shipment = await _shipmentService.DeliverAsync(id, cancellationToken);
+        var shipment = await _shipmentService.DeliverAsync(id, cancellationToken);
 
-            if (shipment is null)
-            {
-                return NotFound();
-            }
-
-            return Ok(shipment);
-        }
-        catch (InvalidOperationException ex)
+        if (shipment is null)
         {
-            return Conflict(new
-            {
-                message = ex.Message
-            });
+            return NotFound();
         }
 
+        return Ok(shipment);
     }
 
 
