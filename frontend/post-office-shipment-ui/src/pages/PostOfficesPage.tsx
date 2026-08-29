@@ -9,6 +9,7 @@ import {
   IconButton,
   Paper,
   Stack,
+  TableContainer,
   Table,
   TableBody,
   TableCell,
@@ -142,69 +143,71 @@ function PostOfficesPage() {
             <CircularProgress />
           </Stack>
         ) : (
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>
-                  ZIP Code
-                </TableCell>
-                <TableCell>
-                  Name
-                </TableCell>
-                <TableCell>
-                  Address
-                </TableCell>
-                <TableCell align="right">
-                  Actions
-                </TableCell>
-              </TableRow>
-            </TableHead>
-
-            <TableBody>
-              {postOffices.map((postOffice) => (
-                <TableRow
-                  key={postOffice.id}
-                  hover
-                >
+          <TableContainer component={Paper}>
+            <Table size="small">
+              <TableHead>
+                <TableRow>
                   <TableCell>
-                    {postOffice.zipCode}
+                    ZIP Code
                   </TableCell>
-
                   <TableCell>
-                    {postOffice.name}
+                    Name
                   </TableCell>
-
                   <TableCell>
-                    {postOffice.address ??
-                      "—"}
+                    Address
                   </TableCell>
-
                   <TableCell align="right">
-                    <IconButton
-                      onClick={() =>
-                        navigate(
-                          `/post-offices/${postOffice.id}/edit`,
-                        )
-                      }
-                    >
-                      <EditIcon />
-                    </IconButton>
-
-                    <IconButton
-                      color="error"
-                      onClick={() =>
-                        openDeleteDialog(
-                          postOffice,
-                        )
-                      }
-                    >
-                      <DeleteIcon />
-                    </IconButton>
+                    Actions
                   </TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHead>
+
+              <TableBody>
+                {postOffices.map((postOffice) => (
+                  <TableRow
+                    key={postOffice.id}
+                    hover
+                  >
+                    <TableCell>
+                      {postOffice.zipCode}
+                    </TableCell>
+
+                    <TableCell>
+                      {postOffice.name}
+                    </TableCell>
+
+                    <TableCell>
+                      {postOffice.address ??
+                        "—"}
+                    </TableCell>
+
+                    <TableCell align="right">
+                      <IconButton size="small"
+                        onClick={() =>
+                          navigate(
+                            `/post-offices/${postOffice.id}/edit`,
+                          )
+                        }
+                      >
+                        <EditIcon />
+                      </IconButton>
+
+                      <IconButton size="small"
+                        color="error"
+                        onClick={() =>
+                          openDeleteDialog(
+                            postOffice,
+                          )
+                        }
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         )}
       </Paper>
 

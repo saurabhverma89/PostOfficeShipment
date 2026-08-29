@@ -60,5 +60,19 @@ export const theme = createTheme({
         size: "small",
       },
     },
+
+    MuiInputLabel: {
+      defaultProps: {
+        size: "small", // This fixes the vertical centering alignment
+      },
+    },
+
+    MuiTableCell: {
+      styleOverrides: {
+        head: {
+          fontWeight: 'bold',
+        },
+      },
+    },
   },
 });

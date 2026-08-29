@@ -28,7 +28,6 @@ import type {
 import ShipmentFilters from "../components/shipments/ShipmentFilters";
 import ShipmentTable from "../components/shipments/ShipmentTable";
 import { useNavigate } from "react-router-dom";
-import StatCard from "../components/common/StatCard"
 import AddIcon from "@mui/icons-material/Add";
 
 
@@ -113,36 +112,6 @@ function ShipmentsPage() {
 
     return (
         <Container maxWidth="xl" sx={{ py: 2 }}>
-            <Box
-                sx={{
-                    display: "none",
-                    gridTemplateColumns:
-                    "repeat(4, 1fr)",
-                    gap: 2,
-                    mb: 3,
-                }}
-                >
-                <StatCard
-                    title="Total Shipments"
-                    value={data?.totalCount ?? 0}
-                />
-
-                <StatCard
-                    title="Received at Origin"
-                    value={0}
-                />
-
-                <StatCard
-                    title="At Destination"
-                    value={0}
-                />
-
-                <StatCard
-                    title="Delivered"
-                    value={0}
-                />
-            </Box>
-
             {error && (
                 <Alert
                 severity="error"
@@ -152,7 +121,34 @@ function ShipmentsPage() {
                 </Alert>
             )}
 
-            <Box sx={{py:2}}>
+            <Stack
+                direction={{
+                xs: "column",
+                sm: "row",
+                }}
+                spacing={2}
+                sx={{
+                mb: 3,
+                justifyContent: "space-between",
+                alignItems: {
+                    xs: "flex-start",
+                    sm: "center",
+                },
+                }}
+            >
+                <div>
+                <Typography
+                    variant="h4"
+                    sx={{ fontWeight: 600 }}
+                >
+                    Shipments
+                </Typography>
+
+                <Typography color="text.secondary">
+                    Manage shipment records
+                </Typography>
+                </div>
+
                 <Button
                     variant="contained"
                     startIcon={<AddIcon />}
@@ -161,7 +157,7 @@ function ShipmentsPage() {
                 }>
                     Create Shipment
                 </Button>
-            </Box>
+            </Stack>
 
             <Paper
                 sx={{ p: 0, mb: 3, border: 'none' }}

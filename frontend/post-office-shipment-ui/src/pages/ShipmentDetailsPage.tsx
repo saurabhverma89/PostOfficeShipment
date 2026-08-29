@@ -214,46 +214,35 @@ function ShipmentDetailsPage() {
           alignItems: "center",
         }}
       >
-        <Button
-          variant="outlined"
-          onClick={() => navigate("/")}
-        >
-          Back
-        </Button>
-
-        <Button
-          variant="outlined"
-          startIcon={<EditIcon />}
-          onClick={() =>
-            navigate(`/shipments/${shipment.id}/edit`)
-          }
-        >
-          Edit
-        </Button>
-
         <Box>
           <Typography variant="h5">
             {shipment.shipmentNumber}
           </Typography>
         </Box>
+               
 
-        
+        <Button
+          variant="outlined"
+          onClick={() => navigate("/shipments")}
+        >
+          Back
+        </Button>
       </Stack>
+      
+      <Divider />
+      
+      <Stack spacing={2} sx={{p: 2}}>
+        <Stack
+          direction="row"
+          spacing={2}
+          sx={{ flexWrap: "wrap", justifyContent: "space-between" }}
+          >  
 
-      <Paper sx={{ p: 3 }}>
-        <Stack spacing={2}>
           <Typography variant="h6">
             Shipment Information
-          </Typography>
+          </Typography> 
 
-          <Divider />
-
-          <Stack
-            direction="row"
-            spacing={2}
-            sx={{ flexWrap: "wrap" }}
-            >
-
+          <Box sx={{display: "flex", gap: 2}}>
             {shipment.status !== ShipmentStatus.Delivered && 
             (
               <Button
@@ -287,6 +276,16 @@ function ShipmentDetailsPage() {
             Deliver </Button>
             )}
 
+            {/* <Button
+              variant="outlined"
+              startIcon={<EditIcon />}
+              onClick={() =>
+                navigate(`/shipments/${shipment.id}/edit`)
+              }
+            >
+              Edit
+            </Button> */}
+
             <Button
               variant="outlined"
               color="error"
@@ -295,78 +294,77 @@ function ShipmentDetailsPage() {
             >
               Delete
             </Button>
-          </Stack>
-
-          <Divider />
-
-          <Typography>
-            Type: {shipment.type}
-          </Typography>
-
-          <Typography>
-            Weight: {shipment.weight} kg
-          </Typography>
-
-          <Typography>
-            Weight Category:{" "}
-            {getWeightCategoryLabel(
-              shipment.weightCategory,
-            )}
-          </Typography>
-
-          <Typography>
-            Status:{" "}
-            <Chip
-              label={getShipmentStatusLabel(
-                shipment.status,
-              )}
-              size="small"
-            />
-          </Typography>
-
-          <Typography>
-            Origin:{" "}
-            {shipment.originPostOffice?.name}
-          </Typography>
-
-          <Typography>
-            Destination:{" "}
-            {shipment.destinationPostOffice?.name}
-          </Typography>
-
-          <Typography>
-            Current Location:{" "}
-            {shipment.currentPostOffice?.name}
-          </Typography>
-
-          <Divider />
-
-          <Typography variant="h6">
-            Status History
-          </Typography>
-
-          {shipment.statusHistory.map(
-            (history, index) => (
-              <Box key={index}>
-                <Typography>
-                  {getShipmentStatusLabel(
-                    history.status,
-                  )}
-                </Typography>
-
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                >
-                  {new Date(
-                    history.changedAt,
-                  ).toLocaleString()}
-                </Typography>
-              </Box>
-            ),
-          )}
+          </Box>
         </Stack>
-      </Paper>
+        
+        <Typography>
+          Type: {shipment.type}
+        </Typography>
+
+        <Typography>
+          Weight: {shipment.weight} kg
+        </Typography>
+
+        <Typography>
+          Weight Category:{" "}
+          {getWeightCategoryLabel(
+            shipment.weightCategory,
+          )}
+        </Typography>
+
+        <Typography>
+          Status:{" "}
+          <Chip
+            label={getShipmentStatusLabel(
+              shipment.status,
+            )}
+            size="small"
+          />
+        </Typography>
+
+        <Typography>
+          Origin:{" "}
+          {shipment.originPostOffice?.name}
+        </Typography>
+
+        <Typography>
+          Destination:{" "}
+          {shipment.destinationPostOffice?.name}
+        </Typography>
+
+        <Typography>
+          Current Location:{" "}
+          {shipment.currentPostOffice?.name}
+        </Typography>
+
+        <Divider />
+
+        <Typography variant="h6">
+          Status History
+        </Typography>
+
+        {shipment.statusHistory.map(
+          (history, index) => (
+            <Box key={index}>
+              <Typography>
+                {getShipmentStatusLabel(
+                  history.status,
+                )}
+              </Typography>
+
+              <Typography
+                variant="body2"
+                color="text.secondary"
+              >
+                {new Date(
+                  history.changedAt,
+                ).toLocaleString()}
+              </Typography>
+            </Box>
+          ),
+        )}
+      </Stack>
+      
       <MoveShipmentDialog
         open={moveDialogOpen}
         postOffices={postOffices}
