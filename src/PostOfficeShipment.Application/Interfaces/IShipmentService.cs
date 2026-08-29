@@ -1,4 +1,5 @@
-﻿using PostOfficeShipment.Application.DTOs.Shipments;
+﻿using PostOfficeShipment.Application.DTOs.Common;
+using PostOfficeShipment.Application.DTOs.Shipments;
 
 namespace PostOfficeShipment.Application.Interfaces;
 
@@ -11,4 +12,6 @@ public interface IShipmentService
     Task UpdateAsync(int id, UpdateShipmentRequest request, CancellationToken cancellationToken = default);
 
     Task DeleteAsync(int id, CancellationToken cancellationToken = default);
+    Task<PagedResponse<ShipmentResponse>> GetPagedAsync(ShipmentQueryRequest request, CancellationToken cancellationToken = default);
+
 }

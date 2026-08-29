@@ -1,4 +1,6 @@
-﻿using PostOfficeShipment.Application.DTOs.Shipments;
+﻿using PostOfficeShipment.Application.DTOs.Common;
+using PostOfficeShipment.Application.DTOs.PostOffices;
+using PostOfficeShipment.Application.DTOs.Shipments;
 using PostOfficeShipment.Application.Interfaces;
 using PostOfficeShipment.Domain.Entities;
 using PostOfficeShipment.Domain.Enums;
@@ -143,6 +145,41 @@ public class ShipmentService : IShipmentService
         throw new NotImplementedException();
     }
 
+    public async Task<PagedResponse<ShipmentResponse>> GetPagedAsync(ShipmentQueryRequest request, CancellationToken cancellationToken = default)
+    {
+        if (request.Page < 1)
+        {
+            request.Page = 1;
+        }
+
+        if (request.PageSize < 1)
+        {
+            request.PageSize = 10;
+        }
+
+        if (request.PageSize > 100)
+        {
+            request.PageSize = 100;
+        }
+
+        var (items, totalCount) =
+            await _shipmentRepository.GetPagedAsync(
+                request,
+                cancellationToken);
+
+        return new PagedResponse<ShipmentResponse>
+        {
+            Items = items
+                .Select(MapToResponse)
+                .ToList(),
+
+            Page = request.Page,
+            PageSize = request.PageSize,
+            TotalCount = totalCount
+        };
+    }
+
+
     private static ShipmentResponse MapToResponse(Shipment shipment)
     {
         return new ShipmentResponse
@@ -153,11 +190,46 @@ public class ShipmentService : IShipmentService
             Weight = shipment.Weight,
             WeightCategory = shipment.WeightCategory,
             Status = shipment.Status,
+
             OriginPostOfficeId = shipment.OriginPostOfficeId,
             DestinationPostOfficeId = shipment.DestinationPostOfficeId,
             CurrentPostOfficeId = shipment.CurrentPostOfficeId,
+
+            OriginPostOffice = MapPostOffice(
+                shipment.OriginPostOffice),
+
+            DestinationPostOffice = MapPostOffice(
+                shipment.DestinationPostOffice),
+
+            CurrentPostOffice = MapPostOffice(
+                shipment.CurrentPostOffice),
+
+            StatusHistory = shipment.StatusHistory
+                .OrderBy(x => x.ChangedAt)
+                .Select(x => new ShipmentStatusHistoryResponse
+                {
+                    Status = x.Status,
+                    PostOfficeId = x.PostOfficeId,
+                    ChangedAt = x.ChangedAt
+                })
+                .ToList(),
+
             CreatedAt = shipment.CreatedAt,
             UpdatedAt = shipment.UpdatedAt
+        };
+    }
+
+    private static PostOfficeResponse? MapPostOffice(PostOffice? postOffice)
+    {
+        if (postOffice is null)
+            return null;
+
+        return new PostOfficeResponse
+        {
+            Id = postOffice.Id,
+            ZipCode = postOffice.ZipCode,
+            Name = postOffice.Name,
+            Address = postOffice.Address
         };
     }
 }

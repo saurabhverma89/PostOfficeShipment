@@ -1,4 +1,5 @@
-﻿using PostOfficeShipment.Domain.Entities;
+﻿using PostOfficeShipment.Application.DTOs.Shipments;
+using PostOfficeShipment.Domain.Entities;
 
 namespace PostOfficeShipment.Application.Interfaces;
 
@@ -17,4 +18,5 @@ public interface IShipmentRepository
     Task SaveChangesAsync(CancellationToken cancellationToken = default);
 
     Task AddStatusHistoryAsync(ShipmentStatusHistory history, CancellationToken cancellationToken = default);
+    Task<(IReadOnlyList<Shipment> Items, int TotalCount)> GetPagedAsync(ShipmentQueryRequest request, CancellationToken cancellationToken = default);
 }

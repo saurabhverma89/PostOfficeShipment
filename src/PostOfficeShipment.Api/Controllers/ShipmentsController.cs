@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PostOfficeShipment.Application.DTOs.Common;
 using PostOfficeShipment.Application.DTOs.Shipments;
 using PostOfficeShipment.Application.Interfaces;
 
@@ -18,9 +19,7 @@ public class ShipmentsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<ShipmentResponse>> Create(CreateShipmentRequest request, CancellationToken cancellationToken)
     {
-        var shipment = await _shipmentService.CreateAsync(
-            request,
-            cancellationToken);
+        var shipment = await _shipmentService.CreateAsync(request, cancellationToken);
 
         return CreatedAtAction(
             nameof(GetById),
@@ -31,9 +30,7 @@ public class ShipmentsController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<ActionResult<ShipmentResponse>> GetById(int id, CancellationToken cancellationToken)
     {
-        var shipment = await _shipmentService.GetByIdAsync(
-            id,
-            cancellationToken);
+        var shipment = await _shipmentService.GetByIdAsync(id, cancellationToken);
 
         if (shipment is null)
         {
@@ -42,4 +39,14 @@ public class ShipmentsController : ControllerBase
 
         return Ok(shipment);
     }
+
+    [HttpGet]
+    public async Task<ActionResult<PagedResponse<ShipmentResponse>>> GetAll([FromQuery] ShipmentQueryRequest request, CancellationToken cancellationToken)
+    {
+        var result = await _shipmentService.GetPagedAsync(request, cancellationToken);
+
+        return Ok(result);
+
+    }
+
 }
