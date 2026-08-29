@@ -94,18 +94,20 @@ function PostOfficesPage() {
           xs: "column",
           sm: "row",
         }}
-        justifycontent="space-between"
-        alignitems={{
-          xs: "flex-start",
-          sm: "center",
-        }}
         spacing={2}
-        sx={{ mb: 3 }}
+        sx={{
+          mb: 3,
+          justifyContent: "space-between",
+          alignItems: {
+            xs: "flex-start",
+            sm: "center",
+          },
+        }}
       >
         <div>
           <Typography
             variant="h4"
-            fontWeight={600}
+            sx={{ fontWeight: 600 }}
           >
             Post Offices
           </Typography>
@@ -135,8 +137,7 @@ function PostOfficesPage() {
       <Paper>
         {loading ? (
           <Stack
-            alignitems="center"
-            sx={{ p: 6 }}
+            sx={{ p: 6, alignItems: "center" }}
           >
             <CircularProgress />
           </Stack>

@@ -84,13 +84,14 @@ function ShipmentFilters({
             <Select
             value={status}
             label="Status"
-            onChange={(event) =>
+            onChange={(event) => {
+                const value = event.target.value as string | number;
                 onStatusChange(
-                event.target.value === ""
-                    ? ""
-                    : Number(event.target.value),
-                )
-            }
+                    value === ""
+                        ? ""
+                        : (Number(value) as ShipmentStatus),
+                );
+            }}
             >
                 <MenuItem value="">
                     All
@@ -124,13 +125,14 @@ function ShipmentFilters({
             <Select
                 value={postOfficeId}
                 label="Post Office"
-                onChange={(event) =>
+                onChange={(event) => {
+                    const value = event.target.value as string | number;
                     onPostOfficeChange(
-                    event.target.value === ""
-                        ? ""
-                        : Number(event.target.value),
-                    )
-                }
+                        value === ""
+                            ? ""
+                            : Number(value),
+                    );
+                }}
             >
                 <MenuItem value="">
                     All
@@ -153,13 +155,14 @@ function ShipmentFilters({
             <Select
             value={weightCategory}
             label="Weight"
-            onChange={(event) =>
+            onChange={(event) => {
+                const value = event.target.value as string | number;
                 onWeightCategoryChange(
-                event.target.value === ""
-                    ? ""
-                    : Number(event.target.value),
-                )
-            }
+                    value === ""
+                        ? ""
+                        : (Number(value) as WeightCategory),
+                );
+            }}
             >
                 <MenuItem value="">
                     All

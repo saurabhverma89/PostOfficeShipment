@@ -63,8 +63,7 @@ function CreatePostOfficePage() {
     >
       <Typography
         variant="h4"
-        fontWeight={600}
-        sx={{ mb: 1 }}
+        sx={{ mb: 1, fontWeight: 600 }}
       >
         Add Post Office
       </Typography>
@@ -124,8 +123,8 @@ function CreatePostOfficePage() {
 
           <Stack
             direction="row"
-            justifycontent="flex-end"
             spacing={2}
+            sx={{ justifyContent: "flex-end" }}
           >
             <Button
               variant="outlined"

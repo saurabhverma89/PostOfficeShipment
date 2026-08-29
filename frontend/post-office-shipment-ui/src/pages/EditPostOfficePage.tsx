@@ -109,8 +109,7 @@ function EditPostOfficePage() {
     >
       <Typography
         variant="h4"
-        fontWeight={600}
-        sx={{ mb: 1 }}
+        sx={{ mb: 1, fontWeight: 600 }}
       >
         Edit Post Office
       </Typography>
@@ -170,8 +169,8 @@ function EditPostOfficePage() {
 
           <Stack
             direction="row"
-            justifycontent="flex-end"
             spacing={2}
+            sx={{ justifyContent: "flex-end" }}
           >
             <Button
               variant="outlined"

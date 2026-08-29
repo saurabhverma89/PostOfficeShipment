@@ -25,8 +25,7 @@ function StatCard({
 
         <Typography
           variant="h4"
-          fontWeight={700}
-          sx={{ mt: 1 }}
+          sx={{ mt: 1, fontWeight: 700 }}
         >
           {value}
         </Typography>

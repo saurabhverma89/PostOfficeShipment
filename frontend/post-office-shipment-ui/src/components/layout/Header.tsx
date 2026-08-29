@@ -20,7 +20,7 @@ function Header() {
         <Box sx={{ flexGrow: 1 }}>
           <Typography
             variant="h6"
-            fontWeight={600}
+            sx={{ fontWeight: 600 }}
           >
             Post Office Management
           </Typography>

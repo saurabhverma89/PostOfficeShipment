@@ -182,8 +182,7 @@ function EditShipmentPage() {
     >
       <Typography
         variant="h4"
-        fontWeight={600}
-        sx={{ mb: 1 }}
+        sx={{ mb: 1, fontWeight: 600 }}
       >
         Edit Shipment
       </Typography>
@@ -231,9 +230,11 @@ function EditShipmentPage() {
             onChange={(event) =>
               setWeight(event.target.value)
             }
-            inputProps={{
-              min: 0.001,
-              step: 0.001,
+            slotProps={{
+              htmlInput: {
+                min: 0.001,
+                step: 0.001,
+              },
             }}
             required
             fullWidth
@@ -300,8 +301,8 @@ function EditShipmentPage() {
 
           <Stack
             direction="row"
-            justifycontent="flex-end"
             spacing={2}
+            sx={{ justifyContent: "flex-end" }}
           >
             <Button
               variant="outlined"

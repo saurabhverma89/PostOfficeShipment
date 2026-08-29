@@ -208,9 +208,11 @@ function ShipmentDetailsPage() {
     >
       <Stack
         direction="row"
-        justifycontent="space-between"
-        alignitems="center"
-        sx={{ mb: 3 }}
+        sx={{
+          mb: 3,
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
       >
         <Button
           variant="outlined"
@@ -249,8 +251,7 @@ function ShipmentDetailsPage() {
           <Stack
             direction="row"
             spacing={2}
-            flexwrap="wrap"
-
+            sx={{ flexWrap: "wrap" }}
             >
 
             {shipment.status !== ShipmentStatus.Delivered && 

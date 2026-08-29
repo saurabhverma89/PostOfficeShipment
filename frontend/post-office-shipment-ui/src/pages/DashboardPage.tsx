@@ -58,17 +58,19 @@ function DashboardPage() {
           xs: "column",
           sm: "row",
         }}
-        justifycontent="space-between"
-        alignitems={{
-          xs: "flex-start",
-          sm: "center",
+        sx={{
+          mb: 4,
+          justifyContent: "space-between",
+          alignItems: {
+            xs: "flex-start",
+            sm: "center",
+          },
         }}
-        sx={{ mb: 4 }}
       >
         <Box>
           <Typography
             variant="h4"
-            fontWeight={600}
+            sx={{ fontWeight: 600 }}
           >
             Dashboard
           </Typography>
@@ -117,7 +119,7 @@ function DashboardPage() {
 
             <Typography
               variant="h3"
-              fontWeight={700}
+              sx={{ fontWeight: 700 }}
             >
               {summary?.total ?? 0}
             </Typography>
@@ -135,7 +137,7 @@ function DashboardPage() {
 
             <Typography
               variant="h3"
-              fontWeight={700}
+              sx={{ fontWeight: 700 }}
             >
               {summary?.receivedAtOrigin ?? 0}
             </Typography>
@@ -153,7 +155,7 @@ function DashboardPage() {
 
             <Typography
               variant="h3"
-              fontWeight={700}
+              sx={{ fontWeight: 700 }}
             >
               {summary?.receivedAtDestination ?? 0}
             </Typography>
@@ -171,7 +173,7 @@ function DashboardPage() {
 
             <Typography
               variant="h3"
-              fontWeight={700}
+              sx={{ fontWeight: 700 }}
             >
               {summary?.delivered ?? 0}
             </Typography>

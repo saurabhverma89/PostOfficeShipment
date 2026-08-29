@@ -122,7 +122,7 @@ function CreateShipmentPage() {
 
   return (
     <Container maxWidth="md" sx={{ py: 2 }}>
-      <Typography variant="h4" fontWeight={600} sx={{ mb: 1 }}>
+      <Typography variant="h4" sx={{ mb: 1, fontWeight: 600 }}>
         Create Shipment 
       </Typography>
       <Typography color="text.secondary" sx={{ mb: 3 }} >
@@ -168,9 +168,11 @@ function CreateShipmentPage() {
               type="number"
               value={weight}
               onChange={(event) => setWeight(event.target.value)}
-              inputProps={{
-                min: 0.001,
-                step: 0.001,
+              slotProps={{
+                htmlInput: {
+                  min: 0.001,
+                  step: 0.001,
+                },
               }}
               required
               fullWidth
@@ -223,8 +225,7 @@ function CreateShipmentPage() {
             <Stack
               direction="row"
               spacing={2}
-              justifycontent="flex-end"
-              sx={{ pt: 2 }}
+              sx={{ pt: 2, justifyContent: "flex-end" }}
             >
               <Button
                 variant="outlined"

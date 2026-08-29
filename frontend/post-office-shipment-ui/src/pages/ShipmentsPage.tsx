@@ -42,7 +42,6 @@ function ShipmentsPage() {
     const [postOffices, setPostOffices] = useState<PostOffice[]>([]);
     const [page, setPage] = useState(1);
     const [shipmentNumber, setShipmentNumber] = useState("");
-    const [searchShipmentNumber, setSearchShipmentNumber] = useState("");
     const [status, setStatus] = useState<ShipmentStatus | "">("");
     const [postOfficeId, setPostOfficeId] = useState<number | "">("");
     const [weightCategory, setWeightCategory] = useState<WeightCategory | "">("");
@@ -197,7 +196,7 @@ function ShipmentsPage() {
                     <Box
                         sx={{
                         display: "flex",
-                        justifycontent: "center",
+                        justifyContent: "center",
                         p: 6,
                         }}
                     >
@@ -216,8 +215,7 @@ function ShipmentsPage() {
                 />
 
                 <Stack
-                alignitems="center"
-                sx={{ p: 3 }}
+                sx={{ p: 3, alignItems: "center" }}
                 >
                 <Pagination
                     page={page}
