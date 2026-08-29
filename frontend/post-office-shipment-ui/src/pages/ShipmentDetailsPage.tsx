@@ -209,8 +209,8 @@ function ShipmentDetailsPage() {
 
   return (
     <Container
-      maxWidth="md"
-      sx={{ py: 4 }}
+      maxWidth="xl" 
+      sx={{ py: 2 }}
     >
       <Stack
         direction="row"
@@ -218,22 +218,20 @@ function ShipmentDetailsPage() {
         alignitems="center"
         sx={{ mb: 3 }}
       >
-        <Box>
-          <Typography variant="h4">
-            {shipment.shipmentNumber}
-          </Typography>
-
-          <Typography color="text.secondary">
-            Shipment Details
-          </Typography>
-        </Box>
-
         <Button
           variant="outlined"
           onClick={() => navigate("/")}
         >
           Back
         </Button>
+
+        <Box>
+          <Typography variant="h5">
+            {shipment.shipmentNumber}
+          </Typography>
+        </Box>
+
+        
       </Stack>
 
       <Paper sx={{ p: 3 }}>

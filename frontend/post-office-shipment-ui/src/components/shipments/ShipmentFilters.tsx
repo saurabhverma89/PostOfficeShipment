@@ -60,7 +60,6 @@ function ShipmentFilters({
             gridTemplateColumns:
             "2fr 1fr 1fr 1fr",
             gap: 2,
-            mb: 3,
             }}
         >
         <TextField

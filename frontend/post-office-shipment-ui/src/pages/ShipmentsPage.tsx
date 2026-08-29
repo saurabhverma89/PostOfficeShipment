@@ -27,6 +27,7 @@ import type {
 import ShipmentFilters from "../components/shipments/ShipmentFilters";
 import ShipmentTable from "../components/shipments/ShipmentTable";
 import { useNavigate } from "react-router-dom";
+import StatCard from "../components/common/StatCard"
 
 import {
     ShipmentStatus,
@@ -110,112 +111,123 @@ function ShipmentsPage() {
 
     return (
         <Container maxWidth="xl" sx={{ py: 4 }}>
-        <Stack
-            direction="row"
-            justifycontent="space-between"
-            alignitems="center"
-            sx={{ mb: 3 }}
-        >
-            <Box>
-                <Typography variant="h4">
-                    Shipment Management
-                </Typography>
-
-                <Typography
-                    color="text.secondary"
-                >
-                    Manage and track shipments
-                </Typography>
-            </Box>
-        </Stack>
-
-        {error && (
-            <Alert
-            severity="error"
-            sx={{ mb: 3 }}
-            >
-            {error}
-            </Alert>
-        )}
-
-        <Paper
-            sx={{ p: 3, mb: 3 }}
-        >
-            <ShipmentFilters
-            shipmentNumber={shipmentNumber}
-            status={status}
-            postOfficeId={postOfficeId}
-            weightCategory={weightCategory}
-            postOffices={postOffices}
-            onShipmentNumberChange={(value) => {
-                setShipmentNumber(value);
-                handleFilterChange();
-            }}
-            onStatusChange={(value) => {
-                setStatus(value);
-                handleFilterChange();
-            }}
-            onPostOfficeChange={(value) => {
-                setPostOfficeId(value);
-                handleFilterChange();
-            }}
-            onWeightCategoryChange={(value) => {
-                setWeightCategory(value);
-                handleFilterChange();
-            }}
-            />
-        </Paper>
-
-        <Paper>
-            {loading ? (
             <Box
                 sx={{
-                display: "flex",
-                justifycontent: "center",
-                p: 6,
+                    display: "grid",
+                    gridTemplateColumns:
+                    "repeat(4, 1fr)",
+                    gap: 2,
+                    mb: 3,
                 }}
-            >
-                <CircularProgress />
+                >
+                <StatCard
+                    title="Total Shipments"
+                    value={data?.totalCount ?? 0}
+                />
+
+                <StatCard
+                    title="Received at Origin"
+                    value={0}
+                />
+
+                <StatCard
+                    title="At Destination"
+                    value={0}
+                />
+
+                <StatCard
+                    title="Delivered"
+                    value={0}
+                />
             </Box>
-            ) : (
-        <>
-            <ShipmentTable
-            shipments={data?.items ?? []}
-            onView={(shipment) =>
-                navigate(`/shipments/${shipment.id}`)
-            }
-            onEdit={(shipment) =>
-                console.log(
-                    "Edit",
-                    shipment,
-                )
-            }
-        />
 
-        <Stack
-          alignitems="center"
-          sx={{ p: 3 }}
+            {error && (
+                <Alert
+                severity="error"
+                sx={{ mb: 3 }}
+                >
+                {error}
+                </Alert>
+            )}
+
+                <Paper
+                    sx={{ p: 3, mb: 3 }}
+                >
+                    <ShipmentFilters
+                    shipmentNumber={shipmentNumber}
+                    status={status}
+                    postOfficeId={postOfficeId}
+                    weightCategory={weightCategory}
+                    postOffices={postOffices}
+                    onShipmentNumberChange={(value) => {
+                        setShipmentNumber(value);
+                        handleFilterChange();
+                    }}
+                    onStatusChange={(value) => {
+                        setStatus(value);
+                        handleFilterChange();
+                    }}
+                    onPostOfficeChange={(value) => {
+                        setPostOfficeId(value);
+                        handleFilterChange();
+                    }}
+                    onWeightCategoryChange={(value) => {
+                        setWeightCategory(value);
+                        handleFilterChange();
+                    }}
+                    />
+                </Paper>
+
+                <Paper>
+                    {loading ? (
+                    <Box
+                        sx={{
+                        display: "flex",
+                        justifycontent: "center",
+                        p: 6,
+                        }}
+                    >
+                        <CircularProgress />
+                    </Box>
+                    ) : (
+                <>
+                    <ShipmentTable
+                    shipments={data?.items ?? []}
+                    onView={(shipment) =>
+                        navigate(`/shipments/${shipment.id}`)
+                    }
+                    onEdit={(shipment) =>
+                        console.log(
+                            "Edit",
+                            shipment,
+                        )
+                    }
+                />
+
+                <Stack
+                alignitems="center"
+                sx={{ p: 3 }}
+                >
+                <Pagination
+                    page={page}
+                    count={data?.totalPages ?? 0}
+                    onChange={(_, value) =>
+                    setPage(value)
+                    }
+                />
+                </Stack>
+            </>
+            )}
+        </Paper>
+
+        <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ mt: 2 }}
         >
-          <Pagination
-            page={page}
-            count={data?.totalPages ?? 0}
-            onChange={(_, value) =>
-              setPage(value)
-            }
-          />
-        </Stack>
-      </>
-    )}
-  </Paper>
-
-  <Typography
-    variant="body2"
-    color="text.secondary"
-    sx={{ mt: 2 }}
-  >
-    {data?.totalCount ?? 0} shipment(s)
-  </Typography>
-</Container>
+            {data?.totalCount ?? 0} shipment(s)
+        </Typography>
+        </Container>
 
 );
 }
