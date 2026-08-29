@@ -7,6 +7,7 @@ import {
 import AppLayout from "./components/layout/AppLayout";
 import ShipmentsPage from "./pages/ShipmentsPage";
 import ShipmentDetailsPage from "./pages/ShipmentDetailsPage";
+import CreateShipmentPage from "./pages/CreateShipmentPage";
 
 function App() {
   return (
@@ -26,6 +27,11 @@ function App() {
           <Route
             path="/shipments/:id"
             element={<ShipmentDetailsPage />}
+          />
+
+          <Route
+            path="/shipments/new"
+            element={<CreateShipmentPage />}
           />
         </Route>
       </Routes>

@@ -2,8 +2,10 @@ import { apiClient } from "./axiosClient";
 import type {
     Shipment,
     PagedResponse,
+    ShipmentStatus, 
+    WeightCategory, 
+    ShipmentType
 } from "../types/shipment";
-import { ShipmentStatus, WeightCategory } from "../types/shipment";
 
 export interface ShipmentQuery {
     page?: number;
@@ -16,7 +18,7 @@ export interface ShipmentQuery {
 
 export interface CreateShipmentRequest {
     shipmentNumber: string;
-    type: number;
+    type: ShipmentType;
     weight: number;
     originPostOfficeId: number;
     destinationPostOfficeId: number;

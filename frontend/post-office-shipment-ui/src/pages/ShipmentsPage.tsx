@@ -8,6 +8,7 @@ import {
     Paper,
     Stack,
     Typography,
+    Button,
 } from "@mui/material";
 
 import {
@@ -28,6 +29,8 @@ import ShipmentFilters from "../components/shipments/ShipmentFilters";
 import ShipmentTable from "../components/shipments/ShipmentTable";
 import { useNavigate } from "react-router-dom";
 import StatCard from "../components/common/StatCard"
+import AddIcon from "@mui/icons-material/Add";
+
 
 import {
     ShipmentStatus,
@@ -110,10 +113,10 @@ function ShipmentsPage() {
     };
 
     return (
-        <Container maxWidth="xl" sx={{ py: 4 }}>
+        <Container maxWidth="xl" sx={{ py: 2 }}>
             <Box
                 sx={{
-                    display: "grid",
+                    display: "none",
                     gridTemplateColumns:
                     "repeat(4, 1fr)",
                     gap: 2,
@@ -150,33 +153,44 @@ function ShipmentsPage() {
                 </Alert>
             )}
 
-                <Paper
-                    sx={{ p: 3, mb: 3 }}
-                >
-                    <ShipmentFilters
-                    shipmentNumber={shipmentNumber}
-                    status={status}
-                    postOfficeId={postOfficeId}
-                    weightCategory={weightCategory}
-                    postOffices={postOffices}
-                    onShipmentNumberChange={(value) => {
-                        setShipmentNumber(value);
-                        handleFilterChange();
-                    }}
-                    onStatusChange={(value) => {
-                        setStatus(value);
-                        handleFilterChange();
-                    }}
-                    onPostOfficeChange={(value) => {
-                        setPostOfficeId(value);
-                        handleFilterChange();
-                    }}
-                    onWeightCategoryChange={(value) => {
-                        setWeightCategory(value);
-                        handleFilterChange();
-                    }}
-                    />
-                </Paper>
+            <Box sx={{py:2}}>
+                <Button
+                    variant="contained"
+                    startIcon={<AddIcon />}
+                    onClick={() =>
+                    navigate("/shipments/new")
+                }>
+                    Create Shipment
+                </Button>
+            </Box>
+
+            <Paper
+                sx={{ p: 0, mb: 3, border: 'none' }}
+            >
+                <ShipmentFilters
+                shipmentNumber={shipmentNumber}
+                status={status}
+                postOfficeId={postOfficeId}
+                weightCategory={weightCategory}
+                postOffices={postOffices}
+                onShipmentNumberChange={(value) => {
+                    setShipmentNumber(value);
+                    handleFilterChange();
+                }}
+                onStatusChange={(value) => {
+                    setStatus(value);
+                    handleFilterChange();
+                }}
+                onPostOfficeChange={(value) => {
+                    setPostOfficeId(value);
+                    handleFilterChange();
+                }}
+                onWeightCategoryChange={(value) => {
+                    setWeightCategory(value);
+                    handleFilterChange();
+                }}
+                />
+            </Paper>
 
                 <Paper>
                     {loading ? (
