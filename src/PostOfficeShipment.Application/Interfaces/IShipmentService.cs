@@ -14,4 +14,11 @@ public interface IShipmentService
     Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default);
     Task<PagedResponse<ShipmentResponse>> GetPagedAsync(ShipmentQueryRequest request, CancellationToken cancellationToken = default);
 
+    Task<ShipmentResponse?> MoveAsync(int id, MoveShipmentRequest request, CancellationToken cancellationToken = default);
+
+    Task<ShipmentResponse?> ReceiveAtDestinationAsync(int id, CancellationToken cancellationToken = default);
+
+    Task<ShipmentResponse?> DeliverAsync(int id, CancellationToken cancellationToken = default);
+
+
 }

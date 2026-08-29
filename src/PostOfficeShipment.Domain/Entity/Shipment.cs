@@ -94,14 +94,86 @@ public abstract class Shipment
 
     public void MoveTo(int postOfficeId)
     {
+        if (Status == ShipmentStatus.Delivered)
+        {
+            throw new InvalidOperationException("A delivered shipment cannot be moved.");
+        }
+
         if (postOfficeId <= 0)
-            throw new ArgumentException(
-                "Post office ID must be greater than zero.",
-                nameof(postOfficeId));
+        {
+            throw new ArgumentException("Post office ID must be greater than zero.");
+        }
 
         CurrentPostOfficeId = postOfficeId;
         UpdatedAt = DateTime.UtcNow;
     }
+
+    public void MarkAsReceivedAtDestination()
+    {
+        if (Status != ShipmentStatus.ReceivedAtOrigin)
+        {
+            throw new InvalidOperationException("Shipment must be received at origin before it can be received at destination.");
+        }
+
+        Status = ShipmentStatus.ReceivedAtDestination;
+        UpdatedAt = DateTime.UtcNow;
+
+    }
+
+    public void MarkAsDelivered()
+    {
+        if (Status != ShipmentStatus.ReceivedAtDestination)
+        {
+            throw new InvalidOperationException("Shipment must be received at destination before it can be delivered.");
+        }
+
+        Status = ShipmentStatus.Delivered;
+        UpdatedAt = DateTime.UtcNow;
+
+    }
+
+    public void ReceiveAtPostOffice(int postOfficeId)
+    {
+        if (Status == ShipmentStatus.Delivered)
+        {
+            throw new InvalidOperationException("A delivered shipment cannot be received again.");
+        }
+
+        if (postOfficeId <= 0)
+        {
+            throw new ArgumentException("Post office ID must be greater than zero.");
+        }
+
+        if (postOfficeId == OriginPostOfficeId)
+        {
+            if (Status != ShipmentStatus.ReceivedAtOrigin)
+            {
+                throw new InvalidOperationException("Shipment cannot be received at origin in its current status.");
+            }
+
+            CurrentPostOfficeId = postOfficeId;
+            Status = ShipmentStatus.ReceivedAtOrigin;
+        }
+        else if (postOfficeId == DestinationPostOfficeId)
+        {
+            if (Status != ShipmentStatus.ReceivedAtOrigin)
+            {
+                throw new InvalidOperationException("Shipment must be received at origin before reaching destination.");
+            }
+
+            CurrentPostOfficeId = postOfficeId;
+            Status = ShipmentStatus.ReceivedAtDestination;
+        }
+        else
+        {
+            CurrentPostOfficeId = postOfficeId;
+        }
+
+        UpdatedAt = DateTime.UtcNow;
+
+    }
+
+
 
     public void UpdateStatus(ShipmentStatus newStatus)
     {
@@ -110,8 +182,7 @@ public abstract class Shipment
 
         if (!IsValidStatusTransition(Status, newStatus))
         {
-            throw new InvalidOperationException(
-                $"Invalid status transition from {Status} to {newStatus}.");
+            throw new InvalidOperationException($"Invalid status transition from {Status} to {newStatus}.");
         }
 
         Status = newStatus;

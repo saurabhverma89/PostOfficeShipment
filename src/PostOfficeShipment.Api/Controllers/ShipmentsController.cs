@@ -96,6 +96,85 @@ public class ShipmentsController : ControllerBase
 
     }
 
+    [HttpPost("{id:int}/move")]
+    public async Task<ActionResult<ShipmentResponse>> Move(int id, MoveShipmentRequest request, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var shipment = await _shipmentService.MoveAsync(id, request, cancellationToken);
+
+            if (shipment is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(shipment);
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new
+            {
+                message = ex.Message
+            });
+        }
+        catch (InvalidOperationException ex)
+        {
+            return Conflict(new
+            {
+                message = ex.Message
+            });
+        }
+
+    }
+
+    [HttpPost("{id:int}/receive-destination")]
+    public async Task<ActionResult<ShipmentResponse>> ReceiveAtDestination(int id, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var shipment =
+            await _shipmentService.ReceiveAtDestinationAsync(id, cancellationToken);
+
+            if (shipment is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(shipment);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return Conflict(new
+            {
+                message = ex.Message
+            });
+        }
+
+    }
+
+    [HttpPost("{id:int}/deliver")]
+    public async Task<ActionResult<ShipmentResponse>> Deliver(int id, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var shipment = await _shipmentService.DeliverAsync(id, cancellationToken);
+
+            if (shipment is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(shipment);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return Conflict(new
+            {
+                message = ex.Message
+            });
+        }
+
+    }
 
 
 }

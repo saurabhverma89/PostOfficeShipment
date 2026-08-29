@@ -278,4 +278,84 @@ public class ShipmentService : IShipmentService
             Address = postOffice.Address
         };
     }
+
+    public async Task<ShipmentResponse?> MoveAsync(int id, MoveShipmentRequest request, CancellationToken cancellationToken = default)
+    {
+        var shipment = await _shipmentRepository.GetByIdAsync(id, cancellationToken);
+
+        if (shipment is null)
+        {
+            return null;
+        }
+
+        var postOffice = await _postOfficeRepository.GetByIdAsync(request.PostOfficeId, cancellationToken);
+
+        if (postOffice is null)
+        {
+            throw new ArgumentException("Post office does not exist.");
+        }
+
+        shipment.MoveTo(postOffice.Id);
+
+        await _shipmentRepository.UpdateAsync(shipment, cancellationToken);
+
+        return MapToResponse(shipment);
+    }
+
+    public async Task<ShipmentResponse?> ReceiveAtDestinationAsync(int id, CancellationToken cancellationToken = default)
+    {
+        var shipment = await _shipmentRepository.GetByIdAsync(id, cancellationToken);
+
+        if (shipment is null)
+        {
+            return null;
+        }
+
+        if (shipment.CurrentPostOfficeId != shipment.DestinationPostOfficeId)
+        {
+            throw new InvalidOperationException("Shipment must be at the destination post office.");
+        }
+
+        shipment.MarkAsReceivedAtDestination();
+
+        shipment.StatusHistory.Add(
+            new ShipmentStatusHistory
+            {
+                Status = shipment.Status,
+                PostOfficeId = shipment.CurrentPostOfficeId,
+                ChangedAt = DateTime.UtcNow
+            });
+
+        await _shipmentRepository.UpdateAsync(shipment, cancellationToken);
+
+        return MapToResponse(shipment);
+
+    }
+
+    public async Task<ShipmentResponse?> DeliverAsync(int id, CancellationToken cancellationToken = default)
+    {
+        var shipment = await _shipmentRepository.GetByIdAsync(id, cancellationToken);
+
+        if (shipment is null)
+        {
+            return null;
+        }
+
+        shipment.MarkAsDelivered();
+
+        shipment.StatusHistory.Add(
+            new ShipmentStatusHistory
+            {
+                Status = shipment.Status,
+                PostOfficeId = shipment.CurrentPostOfficeId,
+                ChangedAt = DateTime.UtcNow
+            });
+
+        await _shipmentRepository.UpdateAsync(shipment, cancellationToken);
+
+        return MapToResponse(shipment);
+
+    }
+
+
 }
