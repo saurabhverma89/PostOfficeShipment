@@ -80,5 +80,22 @@ public class ShipmentsController : ControllerBase
 
     }
 
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
+    {
+        var deleted = await _shipmentService.DeleteAsync(
+        id,
+        cancellationToken);
+
+        if (!deleted)
+        {
+            return NotFound();
+        }
+
+        return NoContent();
+
+    }
+
+
 
 }

@@ -47,6 +47,7 @@ public class ShipmentRepository : IShipmentRepository
     public async Task DeleteAsync(Shipment shipment, CancellationToken cancellationToken = default)
     {
         _context.Shipments.Remove(shipment);
+        await _context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task SaveChangesAsync(CancellationToken cancellationToken = default)

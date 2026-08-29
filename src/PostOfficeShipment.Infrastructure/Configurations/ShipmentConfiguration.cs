@@ -55,5 +55,10 @@ public class ShipmentConfiguration : IEntityTypeConfiguration<Shipment>
             .WithMany(x => x.CurrentShipments)
             .HasForeignKey(x => x.CurrentPostOfficeId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasMany(x => x.StatusHistory)
+            .WithOne(x => x.Shipment)
+            .HasForeignKey(x => x.ShipmentId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

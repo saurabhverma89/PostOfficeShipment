@@ -176,9 +176,19 @@ public class ShipmentService : IShipmentService
     }
 
 
-    public Task DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var shipment = await _shipmentRepository.GetByIdAsync(id, cancellationToken);
+
+        if (shipment is null)
+        {
+            return false;
+        }
+
+        await _shipmentRepository.DeleteAsync(shipment, cancellationToken);
+
+        return true;
+
     }
 
     public async Task<PagedResponse<ShipmentResponse>> GetPagedAsync(ShipmentQueryRequest request, CancellationToken cancellationToken = default)
