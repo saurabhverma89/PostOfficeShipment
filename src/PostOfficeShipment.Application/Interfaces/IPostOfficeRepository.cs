@@ -6,13 +6,13 @@ public interface IPostOfficeRepository
 {
     Task<PostOffice?> GetByIdAsync(int id, CancellationToken cancellationToken = default);
 
-    Task<bool> ExistsAsync(int id, CancellationToken cancellationToken = default);
-
+    Task<IReadOnlyList<PostOffice>> GetAllAsync(CancellationToken cancellationToken = default);
     Task AddAsync(PostOffice postOffice, CancellationToken cancellationToken = default);
 
-    void Update(PostOffice postOffice);
+    Task UpdateAsync(PostOffice postOffice, CancellationToken cancellationToken = default);
 
-    void Delete(PostOffice postOffice);
+    Task DeleteAsync(PostOffice postOffice, CancellationToken cancellationToken = default);
 
-    Task SaveChangesAsync(CancellationToken cancellationToken = default);
+    Task<bool> ExistsByZipCodeAsync(string zipCode, int? excludeId = null, CancellationToken cancellationToken = default);
+
 }

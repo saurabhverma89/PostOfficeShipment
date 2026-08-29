@@ -22,10 +22,11 @@ public class PostOfficeRepository : IPostOfficeRepository
                 cancellationToken);
     }
 
-    public async Task<bool> ExistsAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<PostOffice>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return await _context.PostOffices
-            .AnyAsync(x => x.Id == id, cancellationToken);
+            .OrderBy(x => x.Name)
+            .ToListAsync(cancellationToken);
     }
 
     public async Task AddAsync(PostOffice postOffice, CancellationToken cancellationToken = default)
@@ -33,20 +34,35 @@ public class PostOfficeRepository : IPostOfficeRepository
         await _context.PostOffices.AddAsync(
             postOffice,
             cancellationToken);
-    }
 
-    public void Update(PostOffice postOffice)
-    {
-        _context.PostOffices.Update(postOffice);
-    }
-
-    public void Delete(PostOffice postOffice)
-    {
-        _context.PostOffices.Remove(postOffice);
-    }
-
-    public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
-    {
         await _context.SaveChangesAsync(cancellationToken);
     }
+
+    public async Task UpdateAsync(PostOffice postOffice, CancellationToken cancellationToken = default)
+    {
+        _context.PostOffices.Update(postOffice);
+
+        await _context.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task DeleteAsync(PostOffice postOffice, CancellationToken cancellationToken = default)
+    {
+        _context.PostOffices.Remove(postOffice);
+
+        await _context.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task<bool> ExistsByZipCodeAsync(string zipCode, int? excludeId = null, CancellationToken cancellationToken = default)
+    {
+        var query = _context.PostOffices
+            .Where(x => x.ZipCode == zipCode);
+
+        if (excludeId.HasValue)
+        {
+            query = query.Where(x => x.Id != excludeId.Value);
+        }
+
+        return await query.AnyAsync(cancellationToken);
+    }
+
 }

@@ -17,7 +17,9 @@ builder.Services.AddDbContext<ShipmentDbContext>(options =>
 
 builder.Services.AddScoped<IShipmentRepository, ShipmentRepository>();
 builder.Services.AddScoped<IPostOfficeRepository, PostOfficeRepository>();
+
 builder.Services.AddScoped<IShipmentService, ShipmentService>();
+builder.Services.AddScoped<IPostOfficeService, PostOfficeService>();
 
 builder.Services.AddControllers();
 
