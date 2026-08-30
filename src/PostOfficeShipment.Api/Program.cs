@@ -4,6 +4,8 @@ using PostOfficeShipment.Application.Interfaces;
 using PostOfficeShipment.Application.Services;
 using PostOfficeShipment.Infrastructure.Data;
 using PostOfficeShipment.Infrastructure.Repositories;
+using System.Text.Json.Serialization;
+
 
 namespace PostOfficeShipment.Api
 {
@@ -27,7 +29,12 @@ namespace PostOfficeShipment.Api
             builder.Services.AddScoped<IShipmentService, ShipmentService>();
             builder.Services.AddScoped<IPostOfficeService, PostOfficeService>();
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers()
+                            .AddJsonOptions(options =>
+                            {
+                                options.JsonSerializerOptions.Converters.Add(
+                                new JsonStringEnumConverter());
+                            });
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -45,6 +52,8 @@ namespace PostOfficeShipment.Api
                     .AllowAnyMethod();
                 });
             });
+
+            builder.Services.AddHealthChecks();
 
             var app = builder.Build();
 
@@ -70,6 +79,8 @@ namespace PostOfficeShipment.Api
 
             app.UseCors("Frontend");
             app.MapControllers();
+
+            app.MapHealthChecks("/health");
 
             app.Run();
         }

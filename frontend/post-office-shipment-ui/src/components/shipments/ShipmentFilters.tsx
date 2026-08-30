@@ -89,7 +89,7 @@ function ShipmentFilters({
                 onStatusChange(
                     value === ""
                         ? ""
-                        : (Number(value) as ShipmentStatus),
+                        : (value as ShipmentStatus),
                 );
             }}
             >
@@ -160,7 +160,7 @@ function ShipmentFilters({
                 onWeightCategoryChange(
                     value === ""
                         ? ""
-                        : (Number(value) as WeightCategory),
+                        : (value as WeightCategory),
                 );
             }}
             >

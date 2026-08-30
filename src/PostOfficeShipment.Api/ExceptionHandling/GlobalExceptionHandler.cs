@@ -20,8 +20,7 @@ public class GlobalExceptionHandler : IExceptionHandler
         {
             ArgumentException => StatusCodes.Status400BadRequest,
 
-            InvalidOperationException =>
-                StatusCodes.Status409Conflict,
+            InvalidOperationException => StatusCodes.Status409Conflict,
 
             _ => StatusCodes.Status500InternalServerError
         };
@@ -37,7 +36,7 @@ public class GlobalExceptionHandler : IExceptionHandler
 
                 _ => "Internal Server Error"
             },
-            Detail = exception.Message
+            Detail = statusCode != StatusCodes.Status500InternalServerError ? exception.Message : "An unexpected error occurred."
         };
 
         httpContext.Response.StatusCode = statusCode;

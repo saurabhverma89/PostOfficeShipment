@@ -1,18 +1,18 @@
 export enum ShipmentStatus {
-    ReceivedAtOrigin = 1,
-    ReceivedAtDestination = 2,
-    Delivered = 3,
+    ReceivedAtOrigin = "ReceivedAtOrigin",
+    ReceivedAtDestination = "ReceivedAtDestination",
+    Delivered = "Delivered",
 }
 
 export enum WeightCategory {
-    LessThan1Kg = 1,
-    Between1And5Kg = 2,
-    MoreThan5Kg = 3,
+    LessThan1Kg = "LessThan1Kg",
+    Between1And5Kg = "Between1And5Kg",
+    MoreThan5Kg = "MoreThan5Kg",
 }
 
 export enum ShipmentType {
-    Letter = 1,
-    Package = 2,
+    Letter = "Letter",
+    Package = "Package",
 }
 
 export interface PostOffice {

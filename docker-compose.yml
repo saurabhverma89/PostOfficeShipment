@@ -39,6 +39,12 @@ services:
 
     ports:
       - "8080:8080"
+    
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   frontend:
     build:

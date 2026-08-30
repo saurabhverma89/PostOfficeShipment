@@ -152,7 +152,7 @@ function CreateShipmentPage() {
               </InputLabel>
 
               <Select value={type} label="Shipment Type"
-                onChange={(event) => setType(Number( event.target.value) as ShipmentType)}
+                onChange={(event) => setType(event.target.value as ShipmentType)}
               >
                 <MenuItem value={ShipmentType.Package}>
                   Package
