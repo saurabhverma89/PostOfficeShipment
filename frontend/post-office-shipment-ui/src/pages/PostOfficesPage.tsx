@@ -56,7 +56,10 @@ function PostOfficesPage() {
   }
 
   useEffect(() => {
-    loadPostOffices();
+    async function fetchData() {
+      await loadPostOffices();
+    }
+    fetchData();
   }, []);
 
   function openDeleteDialog(

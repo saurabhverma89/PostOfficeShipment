@@ -35,9 +35,12 @@ const [postOfficeId, setPostOfficeId] = useState<number>(currentPostOfficeId);
 const [submitting, setSubmitting] = useState(false);
 
 useEffect(() => {
-    if (open) {
-        setPostOfficeId(currentPostOfficeId);
-    }
+  async function resetPostOfficeId(currentPostOfficeId: number) {
+    setPostOfficeId(currentPostOfficeId);
+  }
+  if (open) {
+      resetPostOfficeId(currentPostOfficeId);
+  }
 }, [open, currentPostOfficeId]);
 
 const handleMove = async () => {
