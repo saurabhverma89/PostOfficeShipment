@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import {
   Alert,
   Box,
-  Button,
   Card,
   CardContent,
   CircularProgress,
@@ -13,16 +11,13 @@ import {
   Typography,
 } from "@mui/material";
 
-import AddIcon from "@mui/icons-material/Add";
-
 import {
   getShipmentSummary,
   type ShipmentSummary,
 } from "../api/shipmentApi";
 
 function DashboardPage() {
-  const navigate = useNavigate();
-
+ 
   const [summary, setSummary] = useState<ShipmentSummary | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -80,7 +75,7 @@ function DashboardPage() {
           </Typography>
         </Box>
 
-        <Button
+        {/* <Button
           variant="contained"
           startIcon={<AddIcon />}
           onClick={() =>
@@ -88,7 +83,7 @@ function DashboardPage() {
           }
         >
           Create Shipment
-        </Button>
+        </Button> */}
       </Stack>
 
       {error && (

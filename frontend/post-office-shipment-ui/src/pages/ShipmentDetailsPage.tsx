@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import EditIcon from "@mui/icons-material/Edit";
+
 import {
   Alert,
   Box,
@@ -9,7 +9,6 @@ import {
   CircularProgress,
   Container,
   Divider,
-  Paper,
   Stack,
   Typography,
 } from "@mui/material";
