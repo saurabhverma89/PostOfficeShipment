@@ -13,53 +13,58 @@ import PostOfficesPage from "./pages/postOffice/PostOfficesPage";
 import CreatePostOfficePage from "./pages/postOffice/CreatePostOfficePage";
 import EditPostOfficePage from "./pages/postOffice/EditPostOfficePage";
 import DashboardPage from "./pages/DashboardPage";
+import LoginPage from "./pages/LoginPage";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<AppLayout />}>
-          <Route
-            path="/"
-            element={<DashboardPage />}
-          />
+        <Route path="/login" element={<LoginPage />} />
+        <Route element={<ProtectedRoute />}>
+          <Route element={<AppLayout />}>
+            <Route
+              path="/"
+              element={<DashboardPage />}
+            />
 
-          <Route
-            path="/shipments"
-            element={<ShipmentsPage />}
-          />
+            <Route
+              path="/shipments"
+              element={<ShipmentsPage />}
+            />
 
-          <Route
-            path="/shipments/:id"
-            element={<ShipmentDetailsPage />}
-          />
+            <Route
+              path="/shipments/:id"
+              element={<ShipmentDetailsPage />}
+            />
 
-          <Route
-            path="/shipments/new"
-            element={<CreateShipmentPage />}
-          />
+            <Route
+              path="/shipments/new"
+              element={<CreateShipmentPage />}
+            />
 
-          <Route
-            path="/shipments/:id/edit"
-            element={<EditShipmentPage />}
-          />
+            <Route
+              path="/shipments/:id/edit"
+              element={<EditShipmentPage />}
+            />
 
-          <Route
-            path="/post-offices"
-            element={<PostOfficesPage />}
-          />
+            <Route
+              path="/post-offices"
+              element={<PostOfficesPage />}
+            />
 
-          <Route
-            path="/post-offices/new"
-            element={<CreatePostOfficePage />}
-          />
+            <Route
+              path="/post-offices/new"
+              element={<CreatePostOfficePage />}
+            />
 
-          <Route
-            path="/post-offices/:id/edit"
-            element={<EditPostOfficePage />}
-          />
+            <Route
+              path="/post-offices/:id/edit"
+              element={<EditPostOfficePage />}
+            />
 
-          
+            
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>

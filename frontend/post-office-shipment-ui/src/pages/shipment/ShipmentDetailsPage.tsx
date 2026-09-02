@@ -172,7 +172,7 @@ function ShipmentDetailsPage() {
 
       await deleteShipment(Number(id));
 
-      navigate("/");
+      navigate("/shipments");
 
     } catch {
       setActionError("Unable to delete shipment.",);

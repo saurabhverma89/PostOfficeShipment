@@ -86,6 +86,7 @@ function PostOfficesPage() {
       await loadPostOffices();
     } catch {
       setError("Unable to delete post office. It may be associated with shipments.");
+      setDeleteDialogOpen(false);
     } finally {
       setDeleting(false);
     }
