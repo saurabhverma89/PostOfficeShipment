@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PostOfficeShipment.Application.DTOs.Common;
 using PostOfficeShipment.Application.DTOs.Shipments;
 using PostOfficeShipment.Application.Interfaces;
 
 namespace PostOfficeShipment.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class ShipmentsController : ControllerBase
