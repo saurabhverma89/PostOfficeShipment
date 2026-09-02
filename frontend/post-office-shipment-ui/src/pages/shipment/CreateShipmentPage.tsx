@@ -19,13 +19,13 @@ import {
 import {
   createShipment,
   type CreateShipmentRequest,
-} from "../services/shipmentService";
+} from "../../services/shipmentService";
 
-import { getPostOffices } from "../services/postOfficeService";
-import type { PostOffice } from "../types/shipment";
+import { getPostOffices } from "../../services/postOfficeService";
+import type { PostOffice } from "../../types/shipment";
 import {
   ShipmentType,
-} from "../types/shipment";
+} from "../../types/shipment";
 
 function CreateShipmentPage() {
   const navigate = useNavigate();

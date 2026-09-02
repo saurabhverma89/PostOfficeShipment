@@ -20,14 +20,14 @@ import {
   getShipmentById,
   updateShipment,
   type UpdateShipmentRequest,
-} from "../services/shipmentService";
+} from "../../services/shipmentService";
 
-import { getPostOffices } from "../services/postOfficeService";
+import { getPostOffices } from "../../services/postOfficeService";
 
 import type {
   PostOffice,
   Shipment,
-} from "../types/shipment";
+} from "../../types/shipment";
 
 function EditShipmentPage() {
   const { id } = useParams();

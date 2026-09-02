@@ -25,11 +25,11 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import {
   deletePostOffice,
   getPostOffices,
-} from "../services/postOfficeService";
+} from "../../services/postOfficeService";
 
-import type { PostOffice } from "../types/shipment";
+import type { PostOffice } from "../../types/shipment";
 
-import ConfirmDialog from "../components/common/ConfirmDialog";
+import ConfirmDialog from "../../components/common/ConfirmDialog";
 
 function PostOfficesPage() {
   const navigate = useNavigate();

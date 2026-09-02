@@ -5,13 +5,13 @@ import {
 } from "react-router-dom";
 
 import AppLayout from "./components/layout/AppLayout";
-import ShipmentsPage from "./pages/ShipmentsPage";
-import ShipmentDetailsPage from "./pages/ShipmentDetailsPage";
-import CreateShipmentPage from "./pages/CreateShipmentPage";
-import EditShipmentPage from "./pages/EditShipmentPage";
-import PostOfficesPage from "./pages/PostOfficesPage";
-import CreatePostOfficePage from "./pages/CreatePostOfficePage";
-import EditPostOfficePage from "./pages/EditPostOfficePage";
+import ShipmentsPage from "./pages/shipment/ShipmentsPage";
+import ShipmentDetailsPage from "./pages/shipment/ShipmentDetailsPage";
+import CreateShipmentPage from "./pages/shipment/CreateShipmentPage";
+import EditShipmentPage from "./pages/shipment/EditShipmentPage";
+import PostOfficesPage from "./pages/postOffice/PostOfficesPage";
+import CreatePostOfficePage from "./pages/postOffice/CreatePostOfficePage";
+import EditPostOfficePage from "./pages/postOffice/EditPostOfficePage";
 import DashboardPage from "./pages/DashboardPage";
 
 function App() {

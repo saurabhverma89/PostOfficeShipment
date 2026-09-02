@@ -19,18 +19,18 @@ import {
   moveShipment,
   receiveAtDestination,
   getShipmentById,
-} from "../services/shipmentService";
+} from "../../services/shipmentService";
 
-import { type Shipment, type PostOffice, ShipmentStatus } from "../types/shipment";
+import { type Shipment, type PostOffice, ShipmentStatus } from "../../types/shipment";
 
 import {
   getShipmentStatusLabel,
   getWeightCategoryLabel,
-} from "../utils/shipmentUtils";
+} from "../../utils/shipmentUtils";
 
-import { getPostOffices } from "../services/postOfficeService";
-import ConfirmDialog from "../components/common/ConfirmDialog";
-import MoveShipmentDialog from "../components/shipments/MoveShipmentDialog";
+import { getPostOffices } from "../../services/postOfficeService";
+import ConfirmDialog from "../../components/common/ConfirmDialog";
+import MoveShipmentDialog from "../../components/shipment/MoveShipmentDialog";
 
 function ShipmentDetailsPage() {
   const { id } = useParams();

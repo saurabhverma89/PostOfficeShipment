@@ -13,11 +13,11 @@ import {
 
 import {
     type ShipmentQuery,
-} from "../services/shipmentService";
+} from "../../services/shipmentService";
 
 
-import ShipmentFilters from "../components/shipments/ShipmentFilters";
-import ShipmentTable from "../components/shipments/ShipmentTable";
+import ShipmentFilters from "../../components/shipment/ShipmentFilters";
+import ShipmentTable from "../../components/shipment/ShipmentTable";
 import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 
@@ -25,9 +25,9 @@ import AddIcon from "@mui/icons-material/Add";
 import {
     ShipmentStatus,
     WeightCategory,
-} from "../types/shipment";
-import { useShipments } from "../hooks/useShipments";
-import { usePostOffices } from "../hooks/usePostOffices";
+} from "../../types/shipment";
+import { useShipments } from "../../hooks/useShipments";
+import { usePostOffices } from "../../hooks/usePostOffices";
 
 function ShipmentsPage() {
     const [page, setPage] = useState(1);
