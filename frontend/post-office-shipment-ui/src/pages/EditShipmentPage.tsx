@@ -20,9 +20,9 @@ import {
   getShipmentById,
   updateShipment,
   type UpdateShipmentRequest,
-} from "../api/shipmentApi";
+} from "../services/shipmentService";
 
-import { getPostOffices } from "../api/postOfficeApi";
+import { getPostOffices } from "../services/postOfficeService";
 
 import type {
   PostOffice,

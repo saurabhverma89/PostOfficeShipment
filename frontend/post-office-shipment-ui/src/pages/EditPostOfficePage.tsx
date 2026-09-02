@@ -18,7 +18,7 @@ import {
 import {
   getPostOfficeById,
   updatePostOffice,
-} from "../api/postOfficeApi";
+} from "../services/postOfficeService";
 
 function EditPostOfficePage() {
   const { id } = useParams();

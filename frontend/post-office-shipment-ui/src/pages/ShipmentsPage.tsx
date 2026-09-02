@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import {
     Alert,
     Box,
@@ -12,18 +12,9 @@ import {
 } from "@mui/material";
 
 import {
-    getShipments, type ShipmentQuery,
-} from "../api/shipmentApi";
+    type ShipmentQuery,
+} from "../services/shipmentService";
 
-import {
-    getPostOffices,
-} from "../api/postOfficeApi";
-
-import type {
-    PostOffice,
-    Shipment,
-    PagedResponse,
-} from "../types/shipment";
 
 import ShipmentFilters from "../components/shipments/ShipmentFilters";
 import ShipmentTable from "../components/shipments/ShipmentTable";
@@ -35,76 +26,36 @@ import {
     ShipmentStatus,
     WeightCategory,
 } from "../types/shipment";
+import { useShipments } from "../hooks/useShipments";
+import { usePostOffices } from "../hooks/usePostOffices";
 
 function ShipmentsPage() {
-    const [data, setData] = useState<PagedResponse<Shipment> | null>(null);
-    const [postOffices, setPostOffices] = useState<PostOffice[]>([]);
     const [page, setPage] = useState(1);
     const [shipmentNumber, setShipmentNumber] = useState("");
     const [status, setStatus] = useState<ShipmentStatus | "">("");
     const [postOfficeId, setPostOfficeId] = useState<number | "">("");
     const [weightCategory, setWeightCategory] = useState<WeightCategory | "">("");
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
+    
+    const shipmentQuery = useMemo<ShipmentQuery>(() => { 
+        const query: ShipmentQuery = { page, pageSize: 10, }; 
+        if (shipmentNumber.trim()) { 
+            query.shipmentNumber = shipmentNumber.trim(); 
+        } 
+        if (status !== "") { 
+            query.status = status; 
+        } 
+        if (postOfficeId !== "") { 
+            query.postOfficeId = postOfficeId; 
+        } 
+        if (weightCategory !== "") { 
+            query.weightCategory = weightCategory; 
+        } 
+        return query; 
+    }, [ page, shipmentNumber, status, postOfficeId, weightCategory, ]);
 
-    useEffect(() => {
-        async function loadPostOffices() {
-            try {
-                const result = await getPostOffices();
-                setPostOffices(result);
-            } catch {
-                setError("Unable to load post offices.", );
-            }
-        }
-
-        loadPostOffices();
-
-    }, []);
-
-    useEffect(() => {
-        async function loadShipments() {
-            try {
-                setLoading(true);
-                setError(null);
-
-                const query: ShipmentQuery = {
-                    page,
-                    pageSize: 10,
-                };
-
-                // if (searchShipmentNumber.trim()) {
-                //     query.shipmentNumber = searchShipmentNumber.trim();
-                // }
-
-                if (shipmentNumber.trim()) {
-                    query.shipmentNumber = shipmentNumber.trim();
-                }
-
-                if (status !== "") {
-                    query.status = status;
-                }
-
-                if (postOfficeId !== "") {
-                    query.postOfficeId = postOfficeId;
-                }
-
-                if (weightCategory !== "") {
-                    query.weightCategory = weightCategory;
-                }
-
-                const result =  await getShipments(query);
-                setData(result);
-            } catch {
-                setError("Unable to load shipments.",);
-            } finally {
-                setLoading(false);
-            }
-        }
-
-        loadShipments();    
-
-    }, [page, shipmentNumber, status, postOfficeId, weightCategory,]);
+    const { postOffices, loading: postOfficesLoading, error: postOfficeError, } = usePostOffices();
+    const { data, loading: shipmentsLoading, error: shipmentsError, } = useShipments(shipmentQuery);
 
     const handleFilterChange = () => {
         setPage(1);
@@ -112,12 +63,15 @@ function ShipmentsPage() {
 
     return (
         <Container maxWidth="xl" sx={{ py: 2 }}>
-            {error && (
-                <Alert
-                severity="error"
-                sx={{ mb: 3 }}
-                >
-                {error}
+            {shipmentsError && (
+                <Alert severity="error" sx={{ mb: 3 }}>
+                    {shipmentsError}
+                </Alert>
+            )}
+
+            {postOfficeError && (
+                <Alert severity="error" sx={{ mb: 3 }}>
+                    {postOfficeError}
                 </Alert>
             )}
 
@@ -188,7 +142,7 @@ function ShipmentsPage() {
             </Paper>
 
                 <Paper>
-                    {loading ? (
+                    {postOfficesLoading || shipmentsLoading ? (
                     <Box
                         sx={{
                         display: "flex",

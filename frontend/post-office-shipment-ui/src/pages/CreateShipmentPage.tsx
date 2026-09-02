@@ -19,9 +19,9 @@ import {
 import {
   createShipment,
   type CreateShipmentRequest,
-} from "../api/shipmentApi";
+} from "../services/shipmentService";
 
-import { getPostOffices } from "../api/postOfficeApi";
+import { getPostOffices } from "../services/postOfficeService";
 import type { PostOffice } from "../types/shipment";
 import {
   ShipmentType,

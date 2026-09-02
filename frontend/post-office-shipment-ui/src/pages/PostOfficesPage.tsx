@@ -25,7 +25,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import {
   deletePostOffice,
   getPostOffices,
-} from "../api/postOfficeApi";
+} from "../services/postOfficeService";
 
 import type { PostOffice } from "../types/shipment";
 

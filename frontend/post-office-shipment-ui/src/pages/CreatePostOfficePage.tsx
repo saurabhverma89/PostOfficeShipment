@@ -13,7 +13,7 @@ import {
 
 import {
   createPostOffice,
-} from "../api/postOfficeApi";
+} from "../services/postOfficeService";
 
 function CreatePostOfficePage() {
   const navigate = useNavigate();

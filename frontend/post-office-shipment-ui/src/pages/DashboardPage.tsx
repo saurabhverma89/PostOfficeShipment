@@ -14,7 +14,7 @@ import {
 import {
   getShipmentSummary,
   type ShipmentSummary,
-} from "../api/shipmentApi";
+} from "../services/shipmentService";
 
 function DashboardPage() {
  

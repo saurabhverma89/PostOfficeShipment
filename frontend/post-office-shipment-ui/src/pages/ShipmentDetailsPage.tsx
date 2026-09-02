@@ -19,7 +19,7 @@ import {
   moveShipment,
   receiveAtDestination,
   getShipmentById,
-} from "../api/shipmentApi";
+} from "../services/shipmentService";
 
 import { type Shipment, type PostOffice, ShipmentStatus } from "../types/shipment";
 
@@ -28,7 +28,7 @@ import {
   getWeightCategoryLabel,
 } from "../utils/shipmentUtils";
 
-import { getPostOffices } from "../api/postOfficeApi";
+import { getPostOffices } from "../services/postOfficeService";
 import ConfirmDialog from "../components/common/ConfirmDialog";
 import MoveShipmentDialog from "../components/shipments/MoveShipmentDialog";
 
